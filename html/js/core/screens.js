@@ -3,6 +3,7 @@ import sfx from "./sfx.js";
 import { enterTransition, leaveTransition } from "./dom.js";
 
 const FOCUS_CHECK_DELAY = 1500;
+const CHILD_KIT = "fade";
 const routes = new Map();
 const listeners = new Set();
 const history = [];
@@ -19,11 +20,12 @@ export function mount(container) {
 }
 
 // Screens register their root element and, for parents, a child outlet.
-export function register(path, element, outletSelector) {
+export function register(path, element, outletSelector, childKit) {
     const key = normalise(path);
     element.classList.add("screen");
-    routes.set(key, { key, element, outletSelector });
-    if (key === currentPath) activate(resolveChain(currentPath), "default-transition");
+    routes.set(key, { key, element, outletSelector, childKit });
+    const nested = key !== "/" && currentPath.startsWith(key + "/");
+    if (currentPath === key || nested) activate(resolveChain(currentPath), "default-transition");
 }
 
 export function current() {
@@ -68,6 +70,12 @@ export function push(path) {
     navigate(target);
 }
 
+export function replace(path) {
+    const target = normalise(path);
+    if (target === currentPath) return;
+    navigate(target);
+}
+
 export function back() {
     if (!history.length) return;
     const target = history.pop();
@@ -104,10 +112,28 @@ export function screenName(path) {
 }
 
 function activate(chain, kit) {
-    const leaving = activeChain.filter(entry => !chain.includes(entry));
+    const previous = activeChain;
     activeChain = chain;
-    chain.forEach((entry, index) => show(entry, chain[index - 1], index === 0 ? kit : null));
-    leaving.forEach((entry, index) => hide(entry, index === 0 ? kit : null));
+    dropLeaving(previous, chain, kit);
+    chain.forEach((entry, index) => {
+        if (previous.includes(entry)) return;
+        show(entry, chain[index - 1], kitAt(chain, index, kit));
+    });
+}
+
+// A leaving branch animates at its highest level only; deeper screens follow it out.
+function dropLeaving(previous, chain, kit) {
+    const leaving = previous.filter(entry => !chain.includes(entry));
+    if (!leaving.length) return;
+    const head = leaving[0];
+    const nested = leaving.slice(1);
+    hide(head, kitAt(previous, previous.indexOf(head), kit), () => nested.forEach(deactivate));
+}
+
+// Nested screens ride their parent's outlet transition, not the router kit.
+function kitAt(chain, index, kit) {
+    if (index === 0) return kit;
+    return chain[index - 1].childKit || CHILD_KIT;
 }
 
 function show(entry, parent, kit) {
@@ -118,11 +144,15 @@ function show(entry, parent, kit) {
     if (kit) enterTransition(entry.element, kit);
 }
 
-function hide(entry, kit) {
-    if (!kit) return deactivate(entry);
+function hide(entry, kit, onDone) {
+    const finish = () => {
+        deactivate(entry);
+        if (onDone) onDone();
+    };
+    if (!kit) return finish();
     entry.element.classList.remove("is-active");
     entry.element.classList.add("is-leaving");
-    leaveTransition(entry.element, kit, () => deactivate(entry));
+    leaveTransition(entry.element, kit, finish);
 }
 
 function deactivate(entry) {

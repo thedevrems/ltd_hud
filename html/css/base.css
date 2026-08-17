@@ -152,7 +152,7 @@ span.keybind {
     height: 100%
 }
 
-#screen-root>.screen {
+.screen {
     position: absolute;
     left: 0;
     top: 0;
@@ -161,11 +161,11 @@ span.keybind {
     display: none
 }
 
-#screen-root>.screen.is-active {
+.screen.is-active {
     display: block
 }
 
-#screen-root>.screen.is-leaving {
+.screen.is-leaving {
     display: block;
     pointer-events: none
 }
