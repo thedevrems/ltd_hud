@@ -3,30 +3,10 @@ import {
 } from "../core/gamestore.js";
 import { config } from "../core/config.js";
 import { setInterfaceMetadata } from "../core/basestore.js";
-import { el, clear, animate } from "../core/dom.js";
+import { el, clear } from "../core/dom.js";
 import sfx from "../core/sfx.js";
+import { ENTER_FRAMES, LEAVE_FRAMES, playFrames } from "../core/animations.js";
 import { VARIANTS } from "./carhud-variants.js";
-
-const EASING = "cubic-bezier(0.075, 0.82, 0.165, 1)";
-const DURATION = 1000;
-
-const ENTER = {
-    fade: { opacity: [0, 1] },
-    zoom: { opacity: [0, 1], transform: ["scale(.3)", "scale(1)"] },
-    from_left: { opacity: [0, 1], transform: ["translateX(-6vw)", "translateX(0vw)"] },
-    from_top: { opacity: [0, 1], transform: ["translateY(-6vw)", "translateY(0vw)"] },
-    from_right: { opacity: [0, 1], transform: ["translateX(6vw)", "translateX(0vw)"] },
-    from_bottom: { opacity: [0, 1], transform: ["translateY(6vw)", "translateY(0vw)"] }
-};
-
-const LEAVE = {
-    fade: { opacity: [1, 0] },
-    zoom: { opacity: [1, 0], transform: ["scale(1)", "scale(.3)"] },
-    from_left: { opacity: [1, 0], transform: ["translateX(0vw)", "translateX(-6vw)"] },
-    from_top: { opacity: [1, 0], transform: ["translateY(0vw)", "translateY(-6vw)"] },
-    from_right: { opacity: [1, 0], transform: ["translateX(0vw)", "translateX(6vw)"] },
-    from_bottom: { opacity: [1, 0], transform: ["translateY(0vw)", "translateY(6vw)"] }
-};
 
 let host = null;
 let wrapper = null;
@@ -49,17 +29,12 @@ function shouldShow() {
     return !!(game.state.carhud.isVisible && config.state.CarHud.Use);
 }
 
-// An unset animation fades; an unknown name leaves the element as it is.
 function playEnter(target) {
-    const name = game.state.carhud.options.animation;
-    const frames = name ? ENTER[name] : ENTER.fade;
-    if (frames) animate(target, frames, { duration: DURATION, easing: EASING });
+    playFrames(ENTER_FRAMES, target, game.state.carhud.options.animation);
 }
 
 function playLeave(target, done) {
-    const name = game.state.carhud.options.animation;
-    const frames = name ? LEAVE[name] : LEAVE.fade;
-    const leaving = frames ? animate(target, frames, { duration: DURATION, easing: EASING }) : null;
+    const leaving = playFrames(LEAVE_FRAMES, target, game.state.carhud.options.animation);
     if (leaving) leaving.onfinish = done;
     else done();
 }
@@ -68,7 +43,7 @@ function playLeave(target, done) {
 function buildVariant() {
     selected = game.state.carhud.selected;
     const build = VARIANTS[selected];
-    node = build ? build() : null;
+    node = build ? build(true) : null;
     if (!node) return;
     wrapper.appendChild(node.root);
     node.apply(view());

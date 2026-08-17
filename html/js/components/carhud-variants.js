@@ -69,9 +69,13 @@ function arcs() {
     return { svg, strokes, setRpm: arcSetter(rpm, RPM_RATIO), setFuel: arcSetter(fuel, FUEL_RATIO) };
 }
 
+function ratioClass(name, isGame) {
+    return isGame ? `carhud-element carhud-${name} game-ratio` : `carhud-element carhud-${name}`;
+}
+
 // Basic wraps the speed dial in two svg arcs for rpm and fuel.
-function buildBasic() {
-    const root = el("div", "carhud-element carhud-basic game-ratio");
+function buildBasic(isGame) {
+    const root = el("div", ratioClass("basic", isGame));
     const arc = arcs();
     const content = el("div", "content");
     const speed = speedBox();
@@ -108,8 +112,8 @@ function verticalGauge(className, icon) {
 }
 
 // Default lines the readouts up in a row above a flat rpm bar.
-function buildDefault() {
-    const root = el("div", "carhud-element carhud-default game-ratio");
+function buildDefault(isGame) {
+    const root = el("div", ratioClass("default", isGame));
     const define = el("div", "carhud-define");
     const row = el("div", "row");
     const speed = speedBox();

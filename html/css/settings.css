@@ -69,3 +69,57 @@
     left: 0;
     top: 0
 }
+
+#settings-notifications .content-preview,
+#settings-helpnotify .content-preview {
+    width: 20vw;
+    height: 20vw;
+    transform: translate(50%, -50%) scale(1.3);
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+
+#settings-notifications .content-preview .notify-element,
+#settings-helpnotify .content-preview .helpnotify-element {
+    position: absolute;
+    left: 0;
+    top: 35%
+}
+
+#settings-progressbar .content-preview {
+    transform: translate(50%, -50%) scale(1.75)
+}
+
+#settings-progressbar .content-preview .progress-bar-element {
+    position: absolute;
+    left: -5vw;
+    top: 50%;
+    transform: translateY(-50%) translate(0)
+}
+
+#settings-progressbar .content-preview .clippath-enter-from {
+    transform: translateY(-50%) translate(-100%);
+    opacity: 0
+}
+
+#settings-progressbar .content-preview .clippath-leave-to {
+    transform: translateY(-50%) translate(100%);
+    opacity: 0
+}
+
+#settings-carhud .content-preview {
+    width: 20vw;
+    height: 20vw
+}
+
+#settings-carhud .content-preview .carhud-element {
+    position: absolute;
+    left: 0;
+    top: 0
+}
+
+#settings-carhud .margin-top {
+    width: 100%;
+    margin-top: auto
+}

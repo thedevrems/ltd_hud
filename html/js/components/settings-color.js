@@ -1,5 +1,5 @@
 import { el, clear, setText } from "../core/dom.js";
-import { createSettingsScreen, header, spacer } from "../core/settings-layout.js";
+import { createSettingsScreen, header, spacer, bindScreenRender } from "../core/settings-layout.js";
 import { createColorPicker } from "../core/color.js";
 import { createRange, createCheckbox } from "../core/widgets.js";
 import { convertHexToRGBA } from "../core/format.js";
@@ -143,8 +143,5 @@ export function register() {
     screen = createSettingsScreen("settings-color", "/menu/color", { columns: 2, preview: false });
     buildMenuColumn(screen.columns[0]);
     buildStatusColumn(screen.columns[1]);
-    render();
-    game.subscribe(render);
-    config.subscribe(render);
-    language.subscribe(render);
+    bindScreenRender("/menu/color", render, [game, config, language]);
 }

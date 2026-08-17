@@ -1,0 +1,158 @@
+/* Vue scoped both dropdown flavours through data-v ids; classes replace them. */
+.select.config {
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: .5vw;
+    opacity: 1;
+    transition: opacity .125s ease-in-out
+}
+
+.select.config.selection {
+    width: 20vw
+}
+
+.select.config.disabled {
+    opacity: .1;
+    pointer-events: none
+}
+
+.select.config .selected-label {
+    font-size: .9vw;
+    margin: auto 0
+}
+
+.select.config.selection>.header {
+    color: #fff;
+    font-size: .95vw;
+    opacity: .3;
+    text-transform: uppercase;
+    font-weight: 600
+}
+
+.select.config.selection .selected-content {
+    width: 100%;
+    background-color: var(--default-background-game-menu);
+    box-sizing: border-box;
+    padding: 1.6vw 2vw;
+    text-transform: uppercase;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between
+}
+
+.select.config.selection .selected-content .dropdown-button {
+    transform: rotate(0);
+    transition: all 1s cubic-bezier(.075, .82, .165, 1)
+}
+
+.select.config.selection .selected-content .dropdown-button.active {
+    transform: rotate(180deg)
+}
+
+.select.config.small-select .text-content {
+    display: flex;
+    width: 100%;
+    background-color: var(--default-background-game-menu);
+    box-sizing: border-box;
+    padding: 1.6vw 2vw;
+    position: relative
+}
+
+.select.config.small-select .header {
+    color: #fff;
+    font-size: .55vw;
+    opacity: .3;
+    text-transform: uppercase;
+    font-weight: 600;
+    position: absolute;
+    left: .5vw;
+    top: -.275vw
+}
+
+.select.config.small-select .selected-content {
+    width: 100%;
+    text-transform: uppercase;
+    font-weight: 600;
+    display: flex;
+    gap: .5vw
+}
+
+.select.config.small-select .selected-content .dropdown-button {
+    width: 20%;
+    height: 100%;
+    background-color: var(--default-background-game-menu);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+
+.select.config.small-select .selected-content .dropdown-button .icon {
+    opacity: .15;
+    transform: rotate(0);
+    transition: all 1s cubic-bezier(.075, .82, .165, 1)
+}
+
+.select.config.small-select .selected-content .dropdown-button.active .icon {
+    transform: rotate(180deg)
+}
+
+.select-list {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0vw 2vw;
+    background-color: var(--default-background-game-menu);
+    max-height: 0px;
+    overflow: hidden;
+    transition: all .48s cubic-bezier(.075, .82, .165, 1);
+    display: flex;
+    flex-direction: column
+}
+
+.select-list.active {
+    padding: 1.6vw 2vw;
+    transition: all 1s cubic-bezier(.075, .82, .165, 1)
+}
+
+.select.config.selection .select-list.active {
+    max-height: 20vw
+}
+
+.select.config.small-select .select-list.active {
+    max-height: 300px
+}
+
+.select-list .select-list-element {
+    position: relative;
+    left: -60%;
+    text-transform: uppercase;
+    font-size: .7vw;
+    font-weight: 500;
+    opacity: .3;
+    height: 2.5vw;
+    display: flex;
+    justify-self: stretch;
+    align-items: center;
+    transition: all .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.select-list .select-list-element.active {
+    opacity: 1
+}
+
+.select-list.active .select-list-element {
+    left: 0%
+}
+
+.select-list.active .select-list-element:nth-child(1) { transition-delay: 0s }
+.select-list.active .select-list-element:nth-child(2) { transition-delay: .1s }
+.select-list.active .select-list-element:nth-child(3) { transition-delay: .2s }
+.select-list.active .select-list-element:nth-child(4) { transition-delay: .3s }
+.select-list.active .select-list-element:nth-child(5) { transition-delay: .4s }
+.select-list.active .select-list-element:nth-child(6) { transition-delay: .5s }
+.select-list.active .select-list-element:nth-child(7) { transition-delay: .6s }
+.select-list.active .select-list-element:nth-child(8) { transition-delay: .7s }
+.select-list.active .select-list-element:nth-child(9) { transition-delay: .8s }
+.select-list.active .select-list-element:nth-child(10) { transition-delay: .9s }
+.select-list.active .select-list-element:nth-child(11) { transition-delay: 1s }

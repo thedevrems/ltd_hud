@@ -1,5 +1,5 @@
 import { el, setStyle, enterTransition, leaveTransition } from "./dom.js";
-import { register as registerScreen } from "./screens.js";
+import { register as registerScreen, current, subscribe } from "./screens.js";
 import { ui } from "./i18n.js";
 
 const PREVIEW_KIT = "clippath";
@@ -50,6 +50,14 @@ export function swapPreview(preview, node) {
     if (!node) return;
     preview.appendChild(node);
     enterTransition(node, PREVIEW_KIT);
+}
+
+// Router children only rendered while mounted; idle screens must stay inert.
+export function bindScreenRender(path, render, stores) {
+    const update = () => { if (current() === path) render(); };
+    stores.forEach(store => store.subscribe(update));
+    subscribe(update);
+    update();
 }
 
 export function animationList(names) {

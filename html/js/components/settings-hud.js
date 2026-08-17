@@ -1,5 +1,7 @@
 import { setText } from "../core/dom.js";
-import { createSettingsScreen, header, interfaceList, labelFor, swapPreview } from "../core/settings-layout.js";
+import {
+    createSettingsScreen, header, interfaceList, labelFor, swapPreview, bindScreenRender
+} from "../core/settings-layout.js";
 import { createSelection } from "../core/dropdown.js";
 import { createCheckbox, createRange, createComponentVisibility } from "../core/widgets.js";
 import { HUD_OPTIONS, optionsOf } from "../core/capabilities.js";
@@ -117,8 +119,5 @@ export function register() {
     visibility = createComponentVisibility(onVisibilityUpdate);
     screen.columns[0].append(selection.root, visibility.root);
     buildOptionsColumn(screen.columns[1]);
-    render();
-    game.subscribe(render);
-    config.subscribe(render);
-    language.subscribe(render);
+    bindScreenRender("/menu/hud", render, [game, config, language]);
 }

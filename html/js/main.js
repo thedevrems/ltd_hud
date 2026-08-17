@@ -19,6 +19,10 @@ import { register as registerMainMenu } from "./components/main-menu.js";
 import { register as registerPauseMenu } from "./components/pause-menu.js";
 import { register as registerSettingsColor } from "./components/settings-color.js";
 import { register as registerSettingsHud } from "./components/settings-hud.js";
+import { register as registerSettingsCarHud } from "./components/settings-carhud.js";
+import { register as registerSettingsNotify } from "./components/settings-notify.js";
+import { register as registerSettingsProgressBar } from "./components/settings-progressbar.js";
+import { register as registerSettingsHelpNotify } from "./components/settings-helpnotify.js";
 
 // Components register their handlers here, then the bus opens the message port.
 registerGameScreen(bus);
@@ -41,5 +45,9 @@ registerMainMenu(bus);
 registerPauseMenu(bus);
 registerSettingsColor(bus);
 registerSettingsHud(bus);
+registerSettingsCarHud(bus);
+registerSettingsNotify(bus);
+registerSettingsProgressBar(bus);
+registerSettingsHelpNotify(bus);
 
 bus.start();
