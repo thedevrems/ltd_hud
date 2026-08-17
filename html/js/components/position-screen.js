@@ -1,23 +1,13 @@
 import { el, setText, setClass } from "../core/dom.js";
 import { register as registerScreen, current, subscribe } from "../core/screens.js";
 import { createRange } from "../core/widgets.js";
-import { minimap } from "../core/minimapstore.js";
+import { claimLiveLayer, releaseLiveLayer, slotOf } from "../core/live-layer.js";
 import { language, ui } from "../core/i18n.js";
-import {
-    game, setComponentPosition, setElementScale, positionUpdated, resetComponentsPosition, resetScale
-} from "../core/gamestore.js";
-import { makeDraggable } from "./position-drag.js";
+import { game, setElementScale, resetComponentsPosition, resetScale } from "../core/gamestore.js";
 
 const PATH = "/position";
 const SCALE_MINIMUM = .3;
 const SCALE_SPAN = 1.5 - .3;
-const HOSTS = ["hud-content", "notify-content", "carhud-content", "minimap-data", "top-left-content", "progress-root"];
-const TARGETS = [
-    { name: "hud", slot: "hud", id: "hud-content" },
-    { name: "notify", slot: "notifies", id: "notify-content" },
-    { name: "carhud", slot: "carhud", id: "carhud-content" },
-    { name: "progressBar", slot: "progressBar", id: "progress-root" }
-];
 
 let screen = null;
 let panel = null;
@@ -27,44 +17,10 @@ let scaleRange = null;
 let infoHeader = null;
 let infoTexts = [];
 let clicked = false;
-const origins = new Map();
-
-function slotOf(name) {
-    const target = TARGETS.find(entry => entry.name === name);
-    return target ? target.slot : name;
-}
 
 function onScaleChange(percent) {
     if (!clicked) return;
     setElementScale(slotOf(clicked), percent / 100 * SCALE_SPAN + SCALE_MINIMUM);
-}
-
-// The hud keeps one position per minimap state; the others keep a single one.
-function positionKey(name) {
-    if (name !== "hud") return false;
-    return minimap.state.isVisible ? "minimap_on" : "minimap_off";
-}
-
-function onDragEnd(target, position, rect) {
-    positionUpdated(target.slot, position, rect.width, rect.height);
-    setComponentPosition(target.slot, positionKey(target.name), position);
-    setClass(screen, "dragging", false);
-    setClass(screen, "dragging-" + target.name, false);
-}
-
-function onDrag(target) {
-    setClass(screen, "dragging", true);
-    setClass(screen, "dragging-" + target.name, true);
-}
-
-function armTarget(target) {
-    const node = document.getElementById(target.id);
-    if (!node) return;
-    makeDraggable(node, {
-        onDrag: () => onDrag(target),
-        onDragEnd: (position, rect) => onDragEnd(target, position, rect),
-        onClick: () => selectTarget(target.name)
-    });
 }
 
 function selectTarget(name) {
@@ -107,21 +63,13 @@ function render() {
     scaleRange.setValue((scale - SCALE_MINIMUM) / SCALE_SPAN * 100);
 }
 
-// The screen borrows the live game layer instead of mounting a second copy.
-function adoptHosts(active) {
-    HOSTS.forEach(id => {
-        const node = document.getElementById(id);
-        if (!node) return;
-        if (!origins.has(id)) origins.set(id, node.parentNode);
-        if (active) screen.appendChild(node);
-        else origins.get(id).appendChild(node);
-    });
-}
-
 function onRouteChanged() {
     const inside = current() === PATH;
-    adoptHosts(inside);
-    if (inside) return render();
+    if (inside) {
+        claimLiveLayer(screen, selectTarget);
+        return render();
+    }
+    releaseLiveLayer(screen);
     clicked = false;
     setClass(panel, "active", false);
 }
@@ -138,7 +86,6 @@ export function register() {
     buildPanel();
     buildInfo();
     registerScreen(PATH, screen);
-    TARGETS.forEach(armTarget);
     window.addEventListener("keydown", onKeyDown);
     subscribe(onRouteChanged);
     game.subscribe(() => { if (current() === PATH) render(); });

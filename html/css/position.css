@@ -44,6 +44,11 @@
     font-size: .75vw
 }
 
+.center-content .row .line {
+    width: .3vw;
+    background-color: var(--primary-color)
+}
+
 .center-content .row .text {
     font-weight: 500;
     box-sizing: border-box;
