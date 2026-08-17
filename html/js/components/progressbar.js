@@ -70,9 +70,10 @@ function renderContainer() {
     host.style.display = config.state.ProgressBar.Use ? "" : "none";
 }
 
-// The bar only shows on the in-game route, like the build's opacity binding.
+// The bar shows on the in-game routes, like the build's opacity binding.
 function renderRoute() {
-    root.style.opacity = screens.current() === "/" ? 1 : 0;
+    const path = screens.current();
+    root.style.opacity = path === "/" || path === "/position" ? 1 : 0;
 }
 
 function onStorageChanged() {
