@@ -8,6 +8,13 @@ export function el(tag, className, props) {
     return node;
 }
 
+// SVG nodes need their own namespace and take attributes rather than properties.
+export function svgEl(tag, attrs) {
+    const node = document.createElementNS("http://www.w3.org/2000/svg", tag);
+    for (const key in attrs) node.setAttribute(key, attrs[key]);
+    return node;
+}
+
 export function qs(selector, root) {
     return (root || document).querySelector(selector);
 }

@@ -1,0 +1,56 @@
+/* Extracted from the Vue build; scope attributes removed. */
+
+.ui-screen .hud-content {
+    display: flex;
+    z-index: 1;
+    position: absolute;
+    left: 45%;
+    height: 2vw !important;
+    opacity: 0;
+    top: calc(100% - 4vw);
+    transition: all .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.ui-screen.visible .hud-content {
+    opacity: 1
+}
+
+.ui-screen>.hud-content.diamondGap {
+    gap: 2vw
+}
+
+.ui-screen>.hud-content .hud-element {
+    width: 2.25vw;
+    height: 2.25vw
+}
+
+.convert-hud-element {
+    max-width: 0vw;
+    opacity: 0;
+    margin-right: 0vw;
+    margin-bottom: 0vw;
+    transform: translateY(2vw);
+    transition: all .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.convert-hud-element.is-visible {
+    max-width: 2.5vw;
+    opacity: 1;
+    margin-right: .5vw;
+    transform: translateY(0)
+}
+
+.convert-hud-element.is-visible.last-visible {
+    margin-right: 0vw !important
+}
+
+.convert-hud-element.is-visible-col {
+    max-width: 2.5vw;
+    opacity: 1;
+    margin-bottom: .5vw;
+    transform: translateY(0)
+}
+
+.convert-hud-element.is-visible-col.last-visible {
+    margin-bottom: 0vw
+}

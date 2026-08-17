@@ -7,6 +7,7 @@ import { register as registerPerspective } from "./components/perspective.js";
 import { register as registerTextUI } from "./components/textui.js";
 import { register as registerProgressBar } from "./components/progressbar.js";
 import { register as registerHelpNotify } from "./components/helpnotify.js";
+import { register as registerHud } from "./components/hud.js";
 
 // Components register their handlers here, then the bus opens the message port.
 registerGameScreen(bus);
@@ -17,5 +18,6 @@ registerPerspective(bus);
 registerTextUI(bus);
 registerProgressBar(bus);
 registerHelpNotify(bus);
+registerHud(bus);
 
 bus.start();

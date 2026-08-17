@@ -1,0 +1,49 @@
+/* Extracted from the Vue build; scope attributes removed. */
+
+.hud-circle {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: visible
+}
+
+.hud-circle .icon {
+    position: relative;
+    z-index: 3;
+    color: var(--primary-color);
+    transition: all .48s cubic-bezier(.075, .82, .165, 1);
+    width: 70%;
+    height: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+.hud-circle .circle-svg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    overflow: visible
+}
+
+.hud-circle .circle-progress {
+    stroke-width: 50;
+    stroke-dashoffset: 0;
+    stroke: var(--primary-color);
+    transition: all .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.hud-circle .circle-background {
+    stroke-width: 50;
+    stroke: var(--primary-background)
+}
+
+.hud-circle .backgroundFill {
+    fill: var(--primary-background)
+}

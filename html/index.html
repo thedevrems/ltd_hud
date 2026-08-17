@@ -17,6 +17,14 @@
     />
   <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/hud.css">
+  <link rel="stylesheet" href="./css/hud-basic.css">
+  <link rel="stylesheet" href="./css/hud-skew.css">
+  <link rel="stylesheet" href="./css/hud-diamond.css">
+  <link rel="stylesheet" href="./css/hud-modern.css">
+  <link rel="stylesheet" href="./css/hud-circle.css">
+  <link rel="stylesheet" href="./css/hud-hexagon.css">
+  <link rel="stylesheet" href="./css/hud-square.css">
   <link rel="stylesheet" href="./css/notify.css">
   <link rel="stylesheet" href="./css/notify-basic.css">
   <link rel="stylesheet" href="./css/notify-modern.css">
@@ -36,10 +44,34 @@
 <body>
   <div id="screen-root">
     <div id="game-screen" class="screen ui-screen">
+      <div id="hud-content" class="hud-content"></div>
       <div id="notify-content" class="notify-content"></div>
       <div class="3d-content">
         <div id="perspective-handler" class="perspective-handler">
           <div id="keybinds-content" class="keybinds-content"></div>
+          <div id="perspective-content" class="perspective-content">
+            <div id="hold-wrapper" class="hold-wrapper" style="transform: translateZ(-30px) scale(1)">
+              <div id="hold-content" class="hold-content">
+                <div id="hud-3d" class="hud"></div>
+              </div>
+            </div>
+            <div id="perspective-pre-row" class="pre-row">
+              <div class="column">
+                <div id="status-sprint" class="status-element">
+                  <div class="icon"><i class="fas fa-running"></i></div>
+                  <div class="progress">
+                    <div class="value"></div>
+                  </div>
+                </div>
+                <div id="status-oxygen" class="status-element">
+                  <div class="icon"><i class="fas fa-lungs"></i></div>
+                  <div class="progress">
+                    <div class="value"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div id="minimap-data" class="minimap-data">
