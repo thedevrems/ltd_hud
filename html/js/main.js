@@ -5,6 +5,7 @@ import { register as registerMinimapData } from "./components/minimap-data.js";
 import { register as registerDefaultNotify } from "./components/default-notify.js";
 import { register as registerPerspective } from "./components/perspective.js";
 import { register as registerTextUI } from "./components/textui.js";
+import { register as registerProgressBar } from "./components/progressbar.js";
 
 // Components register their handlers here, then the bus opens the message port.
 registerGameScreen(bus);
@@ -13,5 +14,6 @@ registerMinimapData(bus);
 registerDefaultNotify(bus);
 registerPerspective(bus);
 registerTextUI(bus);
+registerProgressBar(bus);
 
 bus.start();
