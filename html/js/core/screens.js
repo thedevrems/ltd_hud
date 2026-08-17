@@ -195,8 +195,10 @@ function onEscape() {
     back();
 }
 
+// Capture phase keeps the route guard reading the path a screen has yet to leave,
+// the way Vue Router's asynchronous navigation did for the app-level listener.
 export function listenForEscape() {
     window.addEventListener("keydown", event => {
         if (!event.repeat && event.code === "Escape") onEscape();
-    });
+    }, true);
 }

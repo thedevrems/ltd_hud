@@ -1,0 +1,102 @@
+/* Extracted from the Vue build; scope attributes removed. */
+
+.cinematic {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between
+}
+
+.cinematic .bar {
+    width: 100%;
+    height: 6vw;
+    box-sizing: border-box;
+    padding: 0;
+    padding-right: 2vw;
+    background-color: #000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: .2vw solid transparent;
+    transition: border-top .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.cinematic .bar.focus {
+    border-top: .2vw solid var(--primary-color)
+}
+
+.cinematic .bar .tip {
+    font-size: .65vw;
+    font-weight: 600;
+    color: #fff;
+    height: 100%;
+    gap: .25vw;
+    padding: 0 2vw;
+    opacity: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    transition: all .125s ease-in-out
+}
+
+.cinematic .bar .tip.focus {
+    background-color: var(--primary-color);
+    color: #1a1a1a
+}
+
+.cinematic .bar .tip.active {
+    opacity: .3
+}
+
+.cinematic .bar .tip span {
+    color: var(--primary-color)
+}
+
+.cinematic .bar .nav-help-info {
+    display: flex;
+    gap: 2vw;
+    align-items: center;
+    opacity: 0;
+    transition: opacity .125s ease-in-out
+}
+
+.cinematic .bar .nav-help-info.active {
+    opacity: .3
+}
+
+.cinematic .bar.focus .nav-help-info.active {
+    opacity: 1 !important
+}
+
+.cinematic .bar .nav-help-info .help-info {
+    display: flex;
+    gap: .65vw;
+    align-items: center
+}
+
+.cinematic .bar .nav-help-info .help-info .key {
+    width: 1.5vw;
+    height: 1.5vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--primary-color);
+    color: #1a1a1a;
+    font-weight: 800;
+    font-size: .75vw
+}
+
+.cinematic .bar .nav-help-info .help-info .key.small {
+    font-size: .55vw
+}
+
+.cinematic .bar .nav-help-info .help-info .text {
+    font-size: .75vw;
+    font-weight: 500;
+    color: #fff
+}
