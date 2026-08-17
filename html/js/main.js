@@ -11,6 +11,7 @@ import { register as registerHud } from "./components/hud.js";
 import { register as registerCarHud } from "./components/carhud.js";
 import { register as registerVoice } from "./components/voice.js";
 import { register as registerWeaponIndicator } from "./components/weapon-indicator.js";
+import { register as registerStreetLabel } from "./components/streetlabel.js";
 
 // Components register their handlers here, then the bus opens the message port.
 registerGameScreen(bus);
@@ -25,5 +26,6 @@ registerHud(bus);
 registerCarHud(bus);
 registerVoice(bus);
 registerWeaponIndicator(bus);
+registerStreetLabel(bus);
 
 bus.start();
