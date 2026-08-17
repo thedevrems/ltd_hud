@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ltl_hud | DUI INTERACTION</title>
+</head>
+<body>
+    <div class="interaction">
+        <div class="background">
+            <svg viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle class="stroke" cx="34" cy="34" r="35" fill="transparent"/>
+                <circle id="stroke-progress" class="stroke stroke-progress" cx="34" cy="34" r="35" fill="transparent"/>
+                <circle cx="34" cy="34" r="26" fill="#171717" fill-opacity="0.65"/>
+            </svg>
+            <div class="key">X</div>
+        </div>
+        <div class="mark"></div>
+        <div class="text-carousel"></div>
+    </div>
+    <script>
+        window.onload = e=> {
+            let progress = document.querySelector('#stroke-progress')
+            let dashArray = progress.getTotalLength()
+            
+            progress.style.strokeDasharray = dashArray
+            progress.style.strokeDashoffset = (dashArray * 0) - dashArray
+        }
+
+        window.addEventListener('message', e=> {
+            const TextUI = e.data
+            if (TextUI.type == 'INIT') {
+                setData(TextUI.elements)
+            }
+            if (TextUI.type == 'CHANGE_SELECTED') {
+                changeSelected(TextUI.isRight)
+            }
+            if (TextUI.type == 'UPDATE_PROGRESS') {
+                setDashOffsetFromInt(TextUI.progress)
+            }
+            if (TextUI.type == 'SET_AS_CLOSE') {
+                let parent = document.querySelector('.interaction')
+                TextUI.state ? parent.classList.remove('far') : parent.classList.add('far')
+            }
+        })
+        
+        setDashOffsetFromInt = function(percentage) {
+            if (percentage >= 100) return
+            let progress = document.querySelector('#stroke-progress')
+            let dashArray = progress.getTotalLength()
+
+            progress.style.strokeDasharray = dashArray
+            progress.style.strokeDashoffset = (dashArray * percentage/100) - dashArray
+        }
+
+        setData = function(elements) {
+            const carousel = document.querySelector('.text-carousel');
+            carousel.innerHTML = '';
+
+            for (const [key, value] of Object.entries(elements)) {
+                const div = document.createElement('div');
+                div.classList.add('text');
+                div.textContent = value.label; 
+                carousel.appendChild(div); 
+            }
+
+            if (carousel.firstChild) {
+                carousel.firstChild.classList.add('active');
+            }
+
+            if (carousel.firstChild && carousel.firstChild.nextElementSibling) {
+                carousel.firstChild.nextElementSibling.classList.add('right');
+            }
+
+            if (carousel.lastChild && elements.length > 2) {
+                carousel.lastChild.classList.add('left');
+            }
+        }
+
+        changeSelected = function(isRight){
+            const carousel = document.querySelector('.text-carousel');
+            let firstActiveElement = carousel.querySelector('.text.active')
+            let activeElement = carousel.querySelector('.text.active');
+
+            let prevElement = activeElement.previousElementSibling || carousel.lastElementChild;
+            let nextElement = activeElement.nextElementSibling || carousel.firstElementChild;
+            if (isRight) {
+                activeElement = nextElement;
+            } else {
+                activeElement = prevElement; 
+            }
+
+            if (!activeElement || activeElement == firstActiveElement) return
+            carousel.querySelectorAll('.text').forEach(element => {
+                element.classList.remove('active', 'left', 'right');
+            });
+            prevElement = activeElement.previousElementSibling || carousel.lastElementChild;
+            nextElement = activeElement.nextElementSibling || carousel.firstElementChild;
+
+            activeElement.classList.remove('inactive');
+            activeElement.classList.add('active');
+            
+            prevElement.classList.remove('inactive');
+            prevElement.classList.add('left');
+            
+            nextElement.classList.remove('inactive');
+            nextElement.classList.add('right');
+        }
+        window.addEventListener('keydown', e => {
+        if (e.code === 'ArrowLeft' || e.code === 'ArrowRight') {
+            changeSelected(e.code == 'ArrowRight')
+        }
+    });
+    </script>
+    <style scoped>
+         @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+        :root {
+            --primary-color: #ee1c3e;
+        }
+        html,body {
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Montserrat', sans-serif;
+            user-select: none;
+        }
+        .interaction {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5vw;
+        }
+
+        .interaction .background {
+            width: 4vw;
+            height: 4vw;
+            position: relative;
+            transform: scale(1.0);
+            filter: none;
+            transition: all .48s cubic-bezier(0.075, 0.82, 0.165, 1);
+        }
+
+        .interaction.far .background {
+            transform: scale(.3);
+            animation: pulse 5s infinite;
+            filter: drop-shadow(0 0 30px var(--primary-color));
+        }
+
+        @keyframes pulse {
+            0% {
+                filter: drop-shadow(0 0 30px var(--primary-color));
+            } 50% {
+                filter: drop-shadow(0 0 60px var(--primary-color));
+            } 100% {
+                filter: drop-shadow(0 0 30px var(--primary-color));
+            }
+        }
+
+        .interaction .background .stroke {
+            stroke-width: 7;
+            stroke: #171717;
+            stroke-opacity: .65;
+        }
+
+        .interaction .background .stroke-progress {
+            stroke: var(--primary-color);
+            stroke-opacity: 1;
+            stroke-dashoffset: 0;
+            stroke-dasharray: 0;
+            transition: all .48s cubic-bezier(0.075, 0.82, 0.165, 1);
+        }
+
+        .interaction .background svg {
+            width: inherit;
+            height: inherit;
+            overflow: visible;
+        }
+        
+        .interaction .key {
+            font-size: 1.5vw;
+            font-weight: 700;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) scale(1.0);
+            text-transform: uppercase;
+            color: white;
+            opacity: 1;
+            transition: all .48s cubic-bezier(0.075, 0.82, 0.165, 1);
+        }
+
+        .interaction.far .key {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(.75);
+        }
+
+        .interaction .mark {
+            width: 1.5vw;
+            height: 1vw !important;
+            clip-path: polygon(50% 100%, 0 0, 100% 0);
+            background-color: #ee1c3e;
+        }
+
+        .interaction.far .mark {opacity: 0;}
+
+        .interaction .text-carousel {
+            height: 1vw;
+            position: relative;
+            width: 15vw;
+            transform: translateY(0vw);
+            opacity: 1;
+            transition: all .48s cubic-bezier(0.075, 0.82, 0.165, 1);
+        }
+
+        .interaction.far .text-carousel {opacity: 0; transform: translateY(2vw);}
+
+        .interaction .text-carousel .text {
+            position: absolute;
+            width: 10vw;
+            text-align: center;
+            font-size: 1.4vw;
+            transform: translateX(-50%) scale(.75);
+            font-weight: 600;
+            opacity: .0;
+            color: white;
+            filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.61));
+            transition: all .48s cubic-bezier(0.075, 0.82, 0.165, 1);
+        }
+
+        .interaction .text-carousel .text.active {
+            left: 50%;
+            transform: translateX(-50%) scale(1);
+            top: 0%;
+            opacity: 1;
+        }
+
+        .interaction .text-carousel .text.left {
+            left: 0%;
+            top: 0%;
+            opacity: .6;
+            transform: translateX(-50%) scale(.75);
+        }
+        .interaction .text-carousel .text.right {
+            left: 100%;
+            top: 0%;
+            opacity: .6;
+            transform: translateX(-50%) scale(.75);
+        }
+    </style>
+</body>
+</html>

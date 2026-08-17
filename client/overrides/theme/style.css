@@ -1,0 +1,8 @@
+#app {
+    font-family: 'Barlow Condensed', sans-serif;
+    --webkit-font-smoothing: antialiased;
+    --moz-osx-font-smoothing: grayscale;
+    color: #ecf0ff;
+    background-color: transparent;
+    display: none;
+}  
