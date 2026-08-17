@@ -1,0 +1,31 @@
+/* Extracted from the Vue build; scope attributes removed. */
+
+.perspective-handler {
+    display: flex;
+    justify-content: space-between;
+    gap: .5vw;
+    position: absolute;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    overflow: visible !important;
+    backface-visibility: hidden;
+    width: 54vw;
+    left: 42%;
+    top: 50%;
+    transform: translateY(-50%) translate(-50%);
+    transition: all .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.perspective-handler.aiming {
+    top: 65%
+}
+
+.perspective-handler.inVeh {
+    left: 50% !important;
+    width: 65vw !important;
+    top: 60%
+}
+
+.perspective-handler.aiming .keybinds-content {
+    opacity: 0
+}
