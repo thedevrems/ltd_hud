@@ -127,6 +127,15 @@ span.keybind {
     background-color: var(--default-background-game-menu)
 }
 
+.ui-screen {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    box-shadow: inset 0 0 #000;
+    overflow: hidden;
+    transition: box-shadow .48s cubic-bezier(.075, .82, .165, 1), opacity .125s ease-in-out
+}
+
 /* Screen host: one absolutely stacked layer per registered screen. */
 #screen-root {
     position: absolute;

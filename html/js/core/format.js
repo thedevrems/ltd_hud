@@ -6,6 +6,17 @@ export function convertHexToRGBA(hex, alpha) {
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
+const COLOUR_TAG = /\|([a-zA-Z]+)=([^|]+)\|/g;
+const GAME_TAG = /~[a-zA-Z]~/g;
+
+// Server colour tags to markup; the unbalanced closing tag matches the build.
+export function transformUsingRegex(text) {
+    if (text == null) return "";
+    return String(text)
+        .replace(COLOUR_TAG, (match, name, value) => `<span class="${name}">${value}</div>`)
+        .replace(GAME_TAG, "");
+}
+
 // Preset coordinates accept numbers, percentages, px, vw and vh.
 export function toPixels(value, base) {
     if (typeof value === "number") return Math.round(value * base);

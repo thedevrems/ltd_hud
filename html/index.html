@@ -17,11 +17,26 @@
     />
   <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/notify.css">
+  <link rel="stylesheet" href="./css/notify-basic.css">
+  <link rel="stylesheet" href="./css/notify-modern.css">
+  <link rel="stylesheet" href="./css/notify-default.css">
+  <link rel="stylesheet" href="./css/notify-diamond.css">
+  <link rel="stylesheet" href="./css/default-notify.css">
   <script type="module" src="./js/main.js"></script>
 </head>
 
 <body>
-  <div id="screen-root"></div>
+  <div id="screen-root">
+    <div id="game-screen" class="screen ui-screen">
+      <div id="notify-content" class="notify-content"></div>
+      <div id="minimap-data" class="minimap-data">
+        <div class="content">
+          <div id="default-notifies" class="default-notifies"></div>
+        </div>
+      </div>
+    </div>
+  </div>
   <div id="stagger-root"></div>
   <div id="progress-root" class="pre-progress"></div>
   <div id="black-screen" class="black-screen"></div>
