@@ -17,6 +17,31 @@ export const perspective = createStore("perspective", {
 
 const list = perspective.state.textui_list;
 
+export function setRotationOffset(offsets) {
+    perspective.state.rotationOffsets = offsets;
+    perspective.emit();
+}
+
+export function setInVeh(state) {
+    perspective.state.inVeh = state;
+    perspective.emit();
+}
+
+export function setVisible(state) {
+    perspective.state.isVisible = state;
+    perspective.emit();
+}
+
+export function setStatusValue(key, value) {
+    perspective.state.status[key].value = value;
+    perspective.emit();
+}
+
+export function setStatusVisibility(key, state) {
+    perspective.state.status[key].visible = state;
+    perspective.emit();
+}
+
 // Progress drains over the entry duration; running dry reports the missed key press.
 function startCountdown(serial, text, duration) {
     const step = 100 / (duration / TICK);
