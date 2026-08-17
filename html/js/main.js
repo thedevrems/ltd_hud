@@ -28,6 +28,8 @@ import { register as registerPositionScreen } from "./components/position-screen
 import { register as registerMusic } from "./components/music.js";
 import { register as registerStagger } from "./components/stagger.js";
 import { register as registerWelcome } from "./components/welcome.js";
+import { register as registerWelcomeMusic } from "./components/welcome-music.js";
+import { register as registerWelcomePresets } from "./components/welcome-presets.js";
 
 // Components register their handlers here, then the bus opens the message port.
 registerGameScreen(bus);
@@ -59,5 +61,7 @@ registerPositionScreen(bus);
 registerMusic(bus);
 registerStagger(bus);
 registerWelcome(bus);
+registerWelcomeMusic(bus);
+registerWelcomePresets(bus);
 
 bus.start();

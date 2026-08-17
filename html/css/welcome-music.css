@@ -1,0 +1,116 @@
+.music-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    position: absolute;
+    left: 0;
+    top: 0%
+}
+
+.music-content .basic-content {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    z-index: 3
+}
+
+.music-content .done-content {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3vw;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
+    font-weight: 800
+}
+
+.music-content .header {
+    font-size: 3vw;
+    font-weight: 800;
+    opacity: 0;
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%, -50%)
+}
+
+.music-content .default-music-set {
+    background-color: #0000000d;
+    color: #000;
+    font-weight: 700;
+    position: absolute;
+    top: 70%;
+    opacity: 0;
+    left: 50%;
+    font-size: .75vw;
+    text-transform: uppercase;
+    box-sizing: border-box;
+    padding: .5vw .75vw;
+    transform: translate(-50%, -50%);
+    transition: all .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.music-content .default-music-set:hover {
+    background-color: #0000001a;
+    padding: .5vw 1.25vw
+}
+
+.music-content .text {
+    font-size: .8vw;
+    font-weight: 500
+}
+
+.music-content .column {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .25vw;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%)
+}
+
+.music-content input[type=text] {
+    background-color: transparent;
+    outline: 0;
+    border: 0;
+    width: 8vw;
+    font-size: .7vw;
+    font-weight: 500;
+    text-align: center;
+    border-bottom: .2vw solid black;
+    box-sizing: border-box;
+    padding: .35vw;
+    font-family: Montserrat, sans-serif;
+    transition: all .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.music-content input[type=text]:focus {
+    width: 12vw
+}
+
+.music-content input[type=text].error {
+    background-color: #eb5b5b
+}
+
+.music-content input[type=text]::placeholder {
+    opacity: 1;
+    color: #000
+}
