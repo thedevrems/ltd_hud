@@ -16,10 +16,14 @@ export function spacer(marginBottom) {
     return node;
 }
 
-function buildColumns(content, count) {
+function buildColumns(content, count, dividers) {
     const columns = [];
     for (let index = 0; index < count; index++) {
-        if (index) content.appendChild(el("div", "game-menu-line"));
+        if (index) {
+            const divider = el("div", "game-menu-line");
+            dividers.push(divider);
+            content.appendChild(divider);
+        }
         const column = el("div", "column");
         columns.push(column);
         content.appendChild(column);
@@ -31,12 +35,13 @@ function buildColumns(content, count) {
 export function createSettingsScreen(id, path, options) {
     const root = document.getElementById(id);
     const content = el("div", "settings-content");
-    const columns = buildColumns(content, options.columns);
+    const dividers = [];
+    const columns = buildColumns(content, options.columns, dividers);
     root.appendChild(content);
     const preview = options.preview === false ? null : el("div", previewClass(options));
     if (preview) root.appendChild(preview);
     registerScreen(path, root);
-    return { root, columns, preview };
+    return { root, columns, dividers, preview };
 }
 
 function previewClass(options) {

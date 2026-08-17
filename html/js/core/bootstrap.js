@@ -4,6 +4,7 @@ import { convertHexToRGBA, toPixels } from "./format.js";
 import { setConfig } from "./config.js";
 import { game, setStorage, setColor, setMiniComponentsList } from "./gamestore.js";
 import { post } from "./nui.js";
+import { setStorageData } from "./musicstore.js";
 
 const FALLBACK_MUSIC = "https://www.youtube.com/watch?v=bN3OKJ_lbK0";
 
@@ -30,6 +31,7 @@ export function applyFullConfig(payload) {
     applyMusicFallbacks(cfg, music);
     applyMiscFallbacks(cfg, slots);
 
+    setStorageData(music);
     bootstrapped.assign({ music, storage: slots });
     post("storage.onLoad", slots);
     setStorage(slots);
