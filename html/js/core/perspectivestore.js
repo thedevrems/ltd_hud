@@ -42,6 +42,22 @@ export function setStatusVisibility(key, state) {
     perspective.emit();
 }
 
+export function setWeaponIndicatorState(state) {
+    perspective.state.weaponIndicator.use = state;
+    perspective.emit();
+}
+
+export function setWeaponIndicatorName(name) {
+    perspective.state.weaponIndicator.name = name;
+    perspective.emit();
+}
+
+// The ammo payload replaces the whole block: current, max and magazine.
+export function setWeaponIndicatorAmmo(ammo) {
+    perspective.state.weaponIndicator.ammo = ammo;
+    perspective.emit();
+}
+
 // Progress drains over the entry duration; running dry reports the missed key press.
 function startCountdown(serial, text, duration) {
     const step = 100 / (duration / TICK);

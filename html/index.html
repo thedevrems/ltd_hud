@@ -36,6 +36,7 @@
   <link rel="stylesheet" href="./css/carhud-default.css">
   <link rel="stylesheet" href="./css/perspective.css">
   <link rel="stylesheet" href="./css/voice.css">
+  <link rel="stylesheet" href="./css/weapon-indicator.css">
   <link rel="stylesheet" href="./css/textui.css">
   <link rel="stylesheet" href="./css/progressbar.css">
   <link rel="stylesheet" href="./css/helpnotify.css">
@@ -85,6 +86,48 @@
                 </div>
               </div>
             </div>
+            <div id="weapon-indicator-3d" class="weapon-indicator" style="transform: translateZ(-10px) scale(.7)">
+              <div class="row">
+                <div class="weapon-data">
+                  <div class="label">Weapon</div>
+                  <div class="text-content">
+                    <div class="icon">
+                      <div class="square"></div>
+                    </div>
+                    <div class="name"></div>
+                  </div>
+                </div>
+                <div class="weapon-ammo">
+                  <div class="ammo"></div>
+                  <div class="magazines"></div>
+                </div>
+              </div>
+              <div class="progress">
+                <div class="value"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="weapon-indicator-2d-content" class="weapon-indicator-2d-content">
+        <div id="weapon-indicator-2d" class="weapon-indicator">
+          <div class="row">
+            <div class="weapon-data">
+              <div class="label"></div>
+              <div class="text-content">
+                <div class="icon">
+                  <div class="square"></div>
+                </div>
+                <div class="name"></div>
+              </div>
+            </div>
+            <div class="weapon-ammo">
+              <div class="ammo"></div>
+              <div class="magazines"></div>
+            </div>
+          </div>
+          <div class="progress">
+            <div class="value"></div>
           </div>
         </div>
       </div>
