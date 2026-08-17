@@ -25,6 +25,9 @@ import { register as registerSettingsProgressBar } from "./components/settings-p
 import { register as registerSettingsHelpNotify } from "./components/settings-helpnotify.js";
 import { register as registerSettingsMisc } from "./components/settings-misc.js";
 import { register as registerPositionScreen } from "./components/position-screen.js";
+import { register as registerMusic } from "./components/music.js";
+import { register as registerStagger } from "./components/stagger.js";
+import { register as registerWelcome } from "./components/welcome.js";
 
 // Components register their handlers here, then the bus opens the message port.
 registerGameScreen(bus);
@@ -53,5 +56,8 @@ registerSettingsProgressBar(bus);
 registerSettingsHelpNotify(bus);
 registerSettingsMisc(bus);
 registerPositionScreen(bus);
+registerMusic(bus);
+registerStagger(bus);
+registerWelcome(bus);
 
 bus.start();

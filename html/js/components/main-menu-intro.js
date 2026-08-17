@@ -1,10 +1,13 @@
 import { animate } from "../core/dom.js";
 import sfx from "../core/sfx.js";
+import { config } from "../core/config.js";
+import { music, isReady, fade } from "../core/musicstore.js";
 
 const EASING = "cubic-bezier(0.075, 0.82, 0.165, 1)";
 const DURATION = 1000;
 const BOOT_DELAY = 3000;
 const OUTRO_BARS_DURATION = 1500;
+const MUSIC_FADE_DURATION = 2000;
 
 const running = [];
 let bootTimer = null;
@@ -44,6 +47,7 @@ export function playIntro(screen, onReady) {
     bootTimer = setTimeout(() => {
         windTimer = setTimeout(() => sfx.wind.play(), 500);
         bars.forEach(bar => run(bar, { width: ["100%", "37.5%"] }, { delay: 500 }));
+        if (config.state.UI.UseMusic && isReady()) fade(music.state.volume, MUSIC_FADE_DURATION);
         const grow = run(logo, { opacity: [0, 1], transform: ["scale(.4)", "scale(1)"] });
         onFinish(grow, () => revealChrome(screen, onReady));
     }, BOOT_DELAY);
