@@ -16,6 +16,7 @@ import { register as registerChat } from "./components/chat.js";
 import { register as registerMenu } from "./components/menu.js";
 import { register as registerGameMenu } from "./components/game-menu.js";
 import { register as registerMainMenu } from "./components/main-menu.js";
+import { register as registerPauseMenu } from "./components/pause-menu.js";
 
 // Components register their handlers here, then the bus opens the message port.
 registerGameScreen(bus);
@@ -35,5 +36,6 @@ registerChat(bus);
 registerMenu(bus);
 registerGameMenu(bus);
 registerMainMenu(bus);
+registerPauseMenu(bus);
 
 bus.start();

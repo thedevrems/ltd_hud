@@ -45,6 +45,13 @@ export function setHTML(node, markup) {
     node.innerHTML = markup == null ? "" : String(markup);
 }
 
+// Swap an image source, warming the browser cache with the same request.
+export function setImageSource(node, source) {
+    if (!node || node.src === source) return;
+    node.src = source;
+    new Image().src = source;
+}
+
 export function nextFrame(callback) {
     requestAnimationFrame(() => requestAnimationFrame(callback));
 }

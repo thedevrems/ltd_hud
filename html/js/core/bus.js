@@ -4,14 +4,13 @@ import { post } from "./nui.js";
 import { play as playSfx } from "./sfx.js";
 import { animate } from "./dom.js";
 import { setTranslations } from "./i18n.js";
-import { config } from "./config.js";
+import { config, settingsPath } from "./config.js";
 import { applyFullConfig } from "./bootstrap.js";
 import { setIsGameVisible, setIsDataLoaded, setCinematicFocusMode } from "./basestore.js";
 import { setComponentVisibility, setMiniComponentVisibility, addQueueToAnimationsList } from "./gamestore.js";
 import { clearAll } from "./storage.js";
 
 const BLACK_SCREEN_EASING = "cubic-bezier(0.075, 0.82, 0.165, 1)";
-const SETTINGS_ORDER = ["color", "hud", "carhud", "notifications", "helpNotify", "progressBar", "misc"];
 
 const handlers = new Map();
 
@@ -46,16 +45,7 @@ function registerRouting() {
     on("HANDLE_MAP_VIEW", data => screens.push(data.state ? "/map" : "/"));
     on("SHOW_PAUSEMENU", data => screens.push(data.state ? "/pausemenu" : "/"));
     on("SET_CINEMATIC_MODE_STATE", data => screens.push(data.state ? "/cinematic" : "/"));
-    on("SHOW_SETTINGS", data => screens.push(data.state ? firstEnabledSettings() : "/"));
-}
-
-// SHOW_SETTINGS lands on the first interface the server left enabled.
-function firstEnabledSettings() {
-    const interfaces = config.state.UI.Interfaces;
-    for (const name of SETTINGS_ORDER) {
-        if (interfaces[name] && interfaces[name].use) return "/menu/" + name;
-    }
-    return "/";
+    on("SHOW_SETTINGS", data => screens.push(data.state ? settingsPath() : "/"));
 }
 
 function registerTransverse() {

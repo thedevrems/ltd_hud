@@ -157,12 +157,12 @@ span.keybind {
     left: 0;
     top: 0;
     width: 100%;
-    height: 100%;
-    display: none
+    height: 100%
 }
 
-.screen.is-active {
-    display: block
+/* Hiding the idle screens leaves the mounted ones with their own display value. */
+.screen:not(.is-active):not(.is-leaving) {
+    display: none
 }
 
 .screen.is-leaving {

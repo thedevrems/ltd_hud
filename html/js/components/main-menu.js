@@ -1,9 +1,9 @@
-import { el, clear, setText, setHTML, setStyle } from "../core/dom.js";
+import { el, clear, setText, setHTML, setStyle, setImageSource } from "../core/dom.js";
 import { register as registerScreen, subscribe } from "../core/screens.js";
 import { config } from "../core/config.js";
 import { language, ui } from "../core/i18n.js";
 import { player, setSteamName } from "../core/playerstore.js";
-import { post } from "../core/nui.js";
+import { post, openUrl } from "../core/nui.js";
 import sfx from "../core/sfx.js";
 import { playIntro, playOutro, resetIntro } from "./main-menu-intro.js";
 
@@ -19,10 +19,6 @@ let connected = null;
 let isMounted = false;
 let isReady = false;
 
-function openLink(url) {
-    if (url && typeof window.invokeNative === "function") window.invokeNative("openUrl", url);
-}
-
 function buildRedirect(link) {
     const node = el("div", "redirect");
     const icon = el("div", "icon");
@@ -32,7 +28,7 @@ function buildRedirect(link) {
     setText(text, link.label);
     node.appendChild(text);
     setStyle(node, { display: link.use ? "flex" : "none" });
-    node.onclick = () => openLink(link.url);
+    node.onclick = () => openUrl(link.url);
     return node;
 }
 
@@ -54,11 +50,7 @@ function renderConnected() {
 }
 
 function renderLogo() {
-    const logo = screen.querySelector(".center .logo img");
-    const source = config.state.Server.Logo;
-    if (logo.src === source) return;
-    logo.src = source;
-    new Image().src = source;
+    setImageSource(screen.querySelector(".center .logo img"), config.state.Server.Logo);
 }
 
 function render() {

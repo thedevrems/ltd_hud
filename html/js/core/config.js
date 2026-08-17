@@ -56,7 +56,18 @@ const DEFAULTS = {
     ProgressBar: { Use: true, Types: { basic: type("Basic"), diamond: type("Diamond"), modern: type("Modern") } }
 };
 
+const SETTINGS_ORDER = ["color", "hud", "carhud", "notifications", "helpNotify", "progressBar", "misc"];
+
 export const config = createStore("config", DEFAULTS);
+
+// The settings screens open on the first interface the server left enabled.
+export function settingsPath() {
+    const interfaces = config.state.UI.Interfaces;
+    for (const name of SETTINGS_ORDER) {
+        if (interfaces[name] && interfaces[name].use) return "/menu/" + name;
+    }
+    return "/";
+}
 
 // Rebuilds Hud.Status so its key order follows Hud.Order, as the build does.
 export function setConfig(payload) {

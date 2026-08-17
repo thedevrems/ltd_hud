@@ -17,6 +17,11 @@ export function isDebugMode() {
     return debugMode;
 }
 
+// External links leave the NUI frame through the CEF native bridge.
+export function openUrl(url) {
+    if (url && typeof window.invokeNative === "function") window.invokeNative("openUrl", url);
+}
+
 // Every callback posts the same shape the Vue build used.
 export function post(name, payload) {
     if (debugMode) return Promise.resolve("");
