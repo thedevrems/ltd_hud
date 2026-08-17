@@ -2,13 +2,6 @@ import { el, setText, setClass } from "./dom.js";
 
 const NEAR_BLACK = 100;
 
-export function convertHexToRGBA(hex, alpha) {
-    const red = parseInt(hex.substr(1, 2), 16);
-    const green = parseInt(hex.substr(3, 2), 16);
-    const blue = parseInt(hex.substr(5, 2), 16);
-    return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
-}
-
 // Euclidean distance from pure black decides whether the label stays readable.
 export function isNearBlack(hex) {
     const red = parseInt(hex.substr(1, 2), 16);
@@ -18,7 +11,7 @@ export function isNearBlack(hex) {
 }
 
 function buildLabel(options) {
-    if (!options.icon && !options.text) return null;
+    if (!options.icon && options.text == null) return null;
     const box = el("div", "icon");
     if (options.icon) box.appendChild(el("i", options.icon));
     else setText(box, options.text);
@@ -44,6 +37,7 @@ export function createColorPicker(options) {
     setClass(root, "full", options.full);
     return {
         root,
+        setLabel: value => { if (box && !options.icon) setText(box, value); },
         update(current, disabled) {
             input.value = current;
             input.style.background = current;

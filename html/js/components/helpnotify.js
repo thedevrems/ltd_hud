@@ -2,18 +2,12 @@ import { createStore } from "../core/state.js";
 import { game } from "../core/gamestore.js";
 import { config } from "../core/config.js";
 import { clear, setClasses } from "../core/dom.js";
+import { HELPNOTIFY_OPTIONS } from "../core/capabilities.js";
 import { VARIANTS, updateVariant } from "./helpnotify-variants.js";
 
 const ANIMATIONS = ["fade", "zoom", "from_left", "from_top"];
 
-export const helpNotify = createStore("helpnotify", {
-    current: false,
-    options: {
-        basic: { shadows: true, smoothEdges: true, background: true },
-        diamond: { shadows: true, smoothEdges: false, background: false },
-        hexagon: { shadows: true, smoothEdges: true, background: true }
-    }
-});
+export const helpNotify = createStore("helpnotify", { current: false, options: HELPNOTIFY_OPTIONS });
 
 let host = null;
 let view = null;

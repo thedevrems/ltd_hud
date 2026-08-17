@@ -11,9 +11,9 @@ function iconTag(icon) {
     return el("i", icon);
 }
 
-function iconBox(child) {
+function iconBox(child, size) {
     const box = el("div", "icon");
-    box.style.fontSize = ICON_SIZE;
+    box.style.fontSize = size || ICON_SIZE;
     box.appendChild(child);
     return box;
 }
@@ -35,18 +35,18 @@ function applyStroke(node, value, dash) {
 }
 
 // Basic, skew and diamond share one shell: a vertical fill behind the icon.
-function buildFilled(name, icon) {
+function buildFilled(name, icon, size) {
     const root = el("div", `hud-element hud-${name}`);
     const progress = el("div", "progress");
-    root.append(progress, iconBox(iconTag(icon)));
+    root.append(progress, iconBox(iconTag(icon), size));
     return { root, apply: (value, color) => fillBar(progress, value, color) };
 }
 
-function buildModern(icon) {
+function buildModern(icon, size) {
     const root = el("div", "hud-element hud-modern");
     const after = el("div", "after");
     after.appendChild(iconTag(icon));
-    const box = iconBox(after);
+    const box = iconBox(after, size);
     const background = el("div", "progress-background");
     const progress = el("div", "progress");
     background.appendChild(progress);
@@ -60,13 +60,13 @@ function buildModern(icon) {
     };
 }
 
-function buildCircle(icon) {
+function buildCircle(icon, size) {
     const root = el("div", "hud-element hud-circle");
     const svg = svgEl("svg", { class: "circle-svg", viewBox: "0 0 468 468", fill: "none" });
     const back = svgEl("circle", { class: "circle-background", cx: 234, cy: 234, r: 234, fill: "transparent" });
     const progress = svgEl("circle", { class: "circle-progress", cx: 234, cy: 234, r: 234, fill: "transparent" });
     svg.append(svgEl("circle", { class: "backgroundFill", cx: 234, cy: 234, r: 189, fill: "#1A1A1A" }), back, progress);
-    const box = iconBox(iconTag(icon));
+    const box = iconBox(iconTag(icon), size);
     root.append(svg, box);
     let dash = 0;
     return {
@@ -81,13 +81,13 @@ function buildCircle(icon) {
     };
 }
 
-function buildHexagon(icon) {
+function buildHexagon(icon, size) {
     const root = el("div", "hud-element hud-hexagon");
     const svg = svgEl("svg", { class: "hexagon-svg", viewBox: "0 0 390 390", fill: "none" });
     const progress = svgEl("path", { d: HEXAGON_OUTLINE, class: "stroke-animate", "stroke-width": 25 });
     const shape = svgEl("path", { d: HEXAGON_FILL });
     svg.append(svgEl("path", { d: HEXAGON_OUTLINE, stroke: "var(--primary-background)", "stroke-width": 25 }), progress, shape);
-    root.append(svg, iconBox(iconTag(icon)));
+    root.append(svg, iconBox(iconTag(icon), size));
     let dash = 0;
     return {
         root, shaped: true,
@@ -106,7 +106,7 @@ function maskId(icon) {
     return `progressMask-${base}-${maskSerial}`;
 }
 
-function buildSquare(icon) {
+function buildSquare(icon, size) {
     const root = el("div", "hud-element hud-square");
     const svg = svgEl("svg", { class: "square-svg", viewBox: "0 0 396 396", fill: "none" });
     const id = maskId(icon);
@@ -117,7 +117,7 @@ function buildSquare(icon) {
     svg.append(svgEl("rect", { x: 50, y: 50, width: 296, height: 296, fill: "var(--primary-background)" }),
         svgEl("rect", { x: 18, y: 18, width: 360, height: 360, stroke: "var(--primary-background)", "stroke-width": 35 }),
         mask, stroke);
-    const box = iconBox(iconTag(icon));
+    const box = iconBox(iconTag(icon), size);
     root.append(svg, box);
     return { root, shaped: true, apply: (value, color) => cutSquare(window, stroke, box, value, color) };
 }
@@ -132,9 +132,9 @@ function cutSquare(window, stroke, box, value, color) {
 }
 
 export const VARIANTS = {
-    basic: icon => buildFilled("basic", icon),
-    skew: icon => buildFilled("skew", icon),
-    diamond: icon => buildFilled("diamond", icon),
+    basic: (icon, size) => buildFilled("basic", icon, size),
+    skew: (icon, size) => buildFilled("skew", icon, size),
+    diamond: (icon, size) => buildFilled("diamond", icon, size),
     modern: buildModern,
     circle: buildCircle,
     hexagon: buildHexagon,
@@ -142,11 +142,11 @@ export const VARIANTS = {
 };
 
 // Only the boxed variants bind smoothEdges and the in-game sizing class.
-export function updateVariant(view, value, color, options) {
+export function updateVariant(view, value, color, options, inGame) {
     setClasses(view.root, {
         iconShadow: options.iconShadow,
         smoothBorder: !view.shaped && options.smoothEdges,
-        game: !view.shaped
+        game: inGame && !view.shaped
     });
     view.apply(value, color);
 }

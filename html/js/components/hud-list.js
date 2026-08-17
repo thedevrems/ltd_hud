@@ -52,7 +52,7 @@ function refresh(rows, status, slot, colors) {
         "is-visible": visible && !slot.options.vertical,
         "is-visible-col": visible && slot.options.vertical
     });
-    if (row.view) updateVariant(row.view, slot.values[status.name], colorOf(colors, status.name), slot.options);
+    if (row.view) updateVariant(row.view, slot.values[status.name], colorOf(colors, status.name), slot.options, true);
 }
 
 // The build tags the trailing row so it drops its trailing gap.
