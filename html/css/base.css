@@ -136,6 +136,13 @@ span.keybind {
     transition: box-shadow .48s cubic-bezier(.075, .82, .165, 1), opacity .125s ease-in-out
 }
 
+.ui-screen .top-left-content {
+    position: absolute;
+    left: 2vw;
+    top: 2vw;
+    width: fit-content
+}
+
 /* Screen host: one absolutely stacked layer per registered screen. */
 #screen-root {
     position: absolute;

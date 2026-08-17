@@ -1,0 +1,147 @@
+/* Extracted from the Vue build; scope attributes removed. */
+
+.helpnotify-diamond {
+    width: 100%;
+    display: flex;
+    gap: 1vw;
+    box-sizing: border-box;
+    padding: 0;
+    background-color: transparent;
+    transition: padding .48s cubic-bezier(.075, .82, .165, 1), background-color .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.helpnotify-diamond.customize {
+    width: 30vw;
+    transform: scale(1.25)
+}
+
+.helpnotify-diamond .pre-icon {
+    flex-shrink: 0;
+    width: 3.796vw;
+    height: 5vw;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+
+.helpnotify-diamond .pre-icon>svg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: inherit;
+    height: inherit
+}
+
+.helpnotify-diamond .icon {
+    font-size: 1.45vw;
+    color: var(--primary-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    font-weight: 700;
+    margin-left: 1.2vw;
+    filter: drop-shadow(0 0 10px black)
+}
+
+.helpnotify-diamond .text-content {
+    display: flex;
+    gap: 1vw
+}
+
+.helpnotify-diamond .line {
+    background-color: var(--primary-background);
+    width: .275vw;
+    height: 100%
+}
+
+.helpnotify-diamond .column-text {
+    display: flex;
+    flex-direction: column
+}
+
+.helpnotify-diamond .column-text.center {
+    justify-content: center
+}
+
+.helpnotify-diamond .column-text .header {
+    font-size: 1.2vw;
+    font-weight: 700;
+    color: #fff;
+    text-transform: uppercase
+}
+
+.helpnotify-diamond.customize .column-text .header {
+    color: #2c2c2c
+}
+
+.helpnotify-diamond.customize .column-text .text {
+    color: #000
+}
+
+.helpnotify-diamond .column-text .text {
+    font-size: .7vw;
+    color: #fff9;
+    display: flex;
+    gap: .2vw;
+    align-items: center
+}
+
+.helpnotify-diamond .column-text .stages {
+    display: flex;
+    flex-direction: column
+}
+
+.helpnotify-diamond .column-text .stage {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: .5vw;
+    color: #fff;
+    margin-left: .5vw;
+    transition: all .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.helpnotify-diamond .column-text .stage.current .text {
+    opacity: 1
+}
+
+.helpnotify-diamond .column-text .stage.complete .text {
+    opacity: .25
+}
+
+.helpnotify-diamond .column-text .stage .dot {
+    width: .2vw;
+    height: .2vw;
+    border-radius: 100%;
+    background-color: #fff;
+    opacity: .25
+}
+
+.helpnotify-diamond .column-text .stage.current .dot {
+    opacity: 1;
+    background-color: var(--primary-color)
+}
+
+.helpnotify-diamond .column-text .stage.complete .dot {
+    opacity: .25
+}
+
+.helpnotify-diamond .column-text .stage .text {
+    font-size: .75vw;
+    opacity: .25;
+    transition: all .125s ease-in-out
+}
+
+.helpnotify-diamond .column-text .stage .done {
+    margin-left: auto;
+    font-size: .6vw;
+    opacity: 0;
+    color: var(--primary-color);
+    transition: all .125s ease-in-out
+}
+
+.helpnotify-diamond .column-text .stage.complete .done {
+    opacity: 1
+}

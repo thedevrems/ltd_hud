@@ -1,0 +1,57 @@
+/* Extracted from the Vue build; scope attributes removed. */
+
+.helpnotify-content {
+    width: 100%;
+    position: relative;
+    opacity: 0;
+    height: fit-content;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    pointer-events: none;
+    margin-bottom: 1vw;
+    max-height: 0;
+    transition: all .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.helpnotify-content.pre_fade {
+    opacity: 0
+}
+
+.helpnotify-content.pre_zoom {
+    transform: scale(.3);
+    opacity: 0
+}
+
+.helpnotify-content.pre_from_left {
+    left: -4vw;
+    opacity: 0
+}
+
+.helpnotify-content.pre_from_top {
+    opacity: 0;
+    top: -4vw
+}
+
+.helpnotify-content.fade {
+    max-height: 15vw;
+    opacity: 1
+}
+
+.helpnotify-content.zoom {
+    max-height: 15vw;
+    transform: scale(1);
+    opacity: 1
+}
+
+.helpnotify-content.from_left {
+    left: 0vw;
+    opacity: 1;
+    max-height: 15vw
+}
+
+.helpnotify-content.from_top {
+    max-height: 15vw;
+    top: 0;
+    opacity: 1
+}

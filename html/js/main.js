@@ -6,6 +6,7 @@ import { register as registerDefaultNotify } from "./components/default-notify.j
 import { register as registerPerspective } from "./components/perspective.js";
 import { register as registerTextUI } from "./components/textui.js";
 import { register as registerProgressBar } from "./components/progressbar.js";
+import { register as registerHelpNotify } from "./components/helpnotify.js";
 
 // Components register their handlers here, then the bus opens the message port.
 registerGameScreen(bus);
@@ -15,5 +16,6 @@ registerDefaultNotify(bus);
 registerPerspective(bus);
 registerTextUI(bus);
 registerProgressBar(bus);
+registerHelpNotify(bus);
 
 bus.start();
