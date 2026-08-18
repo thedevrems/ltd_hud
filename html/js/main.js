@@ -33,6 +33,8 @@ import { register as registerWelcomePresets } from "./components/welcome-presets
 import { register as registerWelcomeCustomize } from "./components/welcome-customize.js";
 import { register as registerPreviewScreen } from "./components/preview-screen.js";
 import { register as registerCinematic } from "./components/cinematic.js";
+import { register as registerTopContent } from "./components/top-content.js";
+import { register as registerDisplayer } from "./components/displayer.js";
 
 // Components register their handlers here, then the bus opens the message port.
 registerGameScreen(bus);
@@ -69,5 +71,7 @@ registerWelcomePresets(bus);
 registerWelcomeCustomize(bus);
 registerPreviewScreen(bus);
 registerCinematic(bus);
+registerTopContent(bus);
+registerDisplayer(bus);
 
 bus.start();

@@ -3,7 +3,10 @@ import { makeDraggable } from "./drag.js";
 import { minimap } from "./minimapstore.js";
 import { setComponentPosition, positionUpdated } from "./gamestore.js";
 
-const HOSTS = ["hud-content", "notify-content", "carhud-content", "minimap-data", "top-left-content", "progress-root"];
+const HOSTS = [
+    "hud-content", "notify-content", "carhud-content", "minimap-data",
+    "top-left-content", "top-right-content", "progress-root"
+];
 const TARGETS = [
     { name: "hud", slot: "hud", id: "hud-content" },
     { name: "notify", slot: "notifies", id: "notify-content" },

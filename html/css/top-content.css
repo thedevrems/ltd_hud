@@ -1,0 +1,68 @@
+/* Extracted from the Vue build; scope attributes removed. */
+
+.top-content {
+    position: absolute;
+    width: 12vw;
+    height: 6.3vw;
+    background-color: #000;
+    top: -7.5vw;
+    left: 50%;
+    transform: translate(-50%);
+    box-sizing: border-box;
+    padding-bottom: .6vw;
+    border-radius: 6vw;
+    interpolate-size: allow-keywords;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    transition: all .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.top-content.visible {
+    top: -4.5vw;
+    border-radius: 20vw
+}
+
+.top-content .proximity {
+    display: flex;
+    gap: .25vw;
+    flex-direction: column;
+    align-items: center
+}
+
+.top-content .proximity .text {
+    font-size: .65vw;
+    font-weight: 500;
+    color: #fff;
+    opacity: 1;
+    text-transform: uppercase
+}
+
+.top-content .proximity .progress {
+    width: 8vw;
+    height: .35vw;
+    background-color: #ffffff0d;
+    display: flex;
+    justify-content: center
+}
+
+.top-content .progress .value {
+    width: 0%;
+    height: 100%;
+    background-color: var(--primary-color);
+    transition: width .38s cubic-bezier(.075, .82, .165, 1)
+}
+
+.top-content .voice-talking {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .15vw
+}
+
+.top-content .voice-talking .pre-squares .square {
+    width: .12vw;
+    height: .12vw;
+    background-color: var(--primary-color);
+    transition: height .48s cubic-bezier(.075, .82, .165, 1)
+}

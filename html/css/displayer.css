@@ -1,0 +1,80 @@
+/* Extracted from the Vue build; scope attributes removed. */
+
+.ui-screen .top-right-content {
+    position: absolute;
+    right: 2vw;
+    top: 2vw;
+    width: fit-content;
+    opacity: 0;
+    transition: opacity .125s ease-in-out
+}
+
+.ui-screen.visible .top-right-content {
+    opacity: 1
+}
+
+.position-screen .top-right-content,
+.preview-screen .top-right-content {
+    position: absolute;
+    right: 2vw;
+    top: 2vw;
+    width: fit-content
+}
+
+.position-screen.dragging .top-right-content {
+    opacity: .3
+}
+
+.displayers-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-end;
+    gap: .15vw
+}
+
+.displayers-content .row {
+    display: flex;
+    gap: .15vw
+}
+
+.displayers-content .element {
+    display: flex;
+    align-items: center;
+    gap: .35vw;
+    box-sizing: border-box;
+    padding: .45vw .8vw;
+    background-color: var(--primary-background)
+}
+
+.displayers-content .element.id {
+    gap: 0
+}
+
+.displayers-content .element .text {
+    font-size: .6vw;
+    font-weight: 500;
+    color: #fff;
+    display: flex;
+    align-items: center
+}
+
+.displayers-content .element .text.bold {
+    font-weight: 600
+}
+
+.displayers-content .element .icon {
+    font-size: .7vw;
+    color: var(--primary-color);
+    font-weight: 700
+}
+
+.displayers-content .text .non-zero {
+    color: #fff;
+    opacity: 1
+}
+
+.displayers-content .text .zero {
+    color: #fff;
+    opacity: .25
+}
