@@ -1,0 +1,265 @@
+@import "https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap";
+@import "https://fonts.googleapis.com/css2?family=Moon+Dance&display=swap";
+
+:root {
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    --primary-color: #ee1c3e;
+    /* Dérivées de --primary-color, réécrites par core/theme.js à chaque
+       changement de couleur. Elles sont ici pour la poignée de frames qui précède
+       SEND_FULL_CFG, et parce qu'une variable absente casse la déclaration
+       rgba() qui la reprend au lieu de la faire retomber sur du blanc. */
+    --primary-color-rgb: 238, 28, 62;
+    --accent-color: rgb(249, 174, 186);
+    --accent-color-rgb: 249, 174, 186;
+    --primary-background: rgba(0, 0, 0, .3);
+    --in-game-background: rgba(0, 0, 0, .5);
+    --icon-color-not-motive: #1a1a1a;
+    --icon-color-motive: #ee1c3e;
+    --default-background-game-menu: rgba(36, 36, 36, .25);
+    --width: 3vw;
+    --customize-navbar-background: rgba(0, 0, 0, .1);
+    --customize-select-checkbox-background: rgb(240, 240, 240);
+    --customize-checkbox-pre-background: rgb(224, 224, 224)
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    -webkit-user-select: none;
+    user-select: none;
+    font-family: Montserrat, sans-serif;
+    background: transparent;
+    -webkit-font-smoothing: antialiased !important
+}
+
+.game-menu-child {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%
+}
+
+.main-menu-screen .center span {
+    color: #fff;
+    font-weight: 700
+}
+
+.red {
+    color: #d14a4a
+}
+
+.cyan {
+    color: #48ebe2
+}
+
+.green {
+    color: #9fe94b
+}
+
+.black {
+    color: #313131
+}
+
+.yellow {
+    color: #fcec16
+}
+
+.blue {
+    color: #2d77ff
+}
+
+.orange {
+    color: #f7b02e
+}
+
+.motive {
+    color: var(--primary-color)
+}
+
+.r {
+    color: red
+}
+
+.g {
+    color: green
+}
+
+.b {
+    color: #00f
+}
+
+.y {
+    color: #ff0
+}
+
+.o {
+    color: orange
+}
+
+span.keybind:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: .1vw;
+    width: 100%;
+    height: 100%;
+    background-color: #cdcdcd;
+    border-radius: .1vw;
+    z-index: -1
+}
+
+span.keybind {
+    position: relative;
+    font-size: .5vw;
+    background-color: #fff;
+    color: #1a1a1a;
+    box-sizing: border-box;
+    padding: .1vw .3vw;
+    border-radius: .1vw;
+    text-transform: uppercase;
+    font-weight: 700
+}
+
+.game-menu-line {
+    width: .3vw;
+    height: 100%;
+    background-color: var(--default-background-game-menu)
+}
+
+.ui-screen {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    box-shadow: inset 0 0 #000;
+    overflow: hidden;
+    transition: box-shadow .48s cubic-bezier(.075, .82, .165, 1), opacity .125s ease-in-out
+}
+
+.ui-screen .top-left-content {
+    position: absolute;
+    left: 2vw;
+    top: 2vw;
+    width: fit-content
+}
+
+/* Screen host: one absolutely stacked layer per registered screen. */
+#screen-root {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%
+}
+
+.screen {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%
+}
+
+/* Hiding the idle screens leaves the mounted ones with their own display value. */
+.screen:not(.is-active):not(.is-leaving) {
+    display: none
+}
+
+.screen.is-leaving {
+    display: block;
+    pointer-events: none
+}
+
+.black-screen {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 999999999
+}
+
+.pre-progress {
+    position: absolute;
+    left: 44%;
+    top: 61%;
+    opacity: 0;
+    transition: opacity .125s ease-in-out
+}
+
+.default-transition-enter-active,
+.default-transition-leave-active {
+    transition: all .2s cubic-bezier(.075, .82, .165, 1)
+}
+
+.default-transition-enter-from,
+.default-transition-leave-to {
+    opacity: 0
+}
+
+.pausemenu-transition-enter-active,
+.pausemenu-transition-leave-active {
+    transition: all .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.pausemenu-transition-enter-from {
+    transform: scale(2);
+    opacity: 0
+}
+
+.pausemenu-transition-leave-to {
+    transform: scale(.85);
+    opacity: 0 !important
+}
+
+.gamemenu-transition-enter-active,
+.gamemenu-transition-leave-active {
+    transition: all .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.gamemenu-transition-enter-from {
+    left: 100%;
+    opacity: 0
+}
+
+.gamemenu-transition-leave-to {
+    left: -100%;
+    opacity: 0
+}
+
+.welcome-after-transition-enter-active,
+.welcome-after-transition-leave-active {
+    transition: all 1s cubic-bezier(.075, .82, .165, 1)
+}
+
+.welcome-after-transition-enter-from {
+    opacity: 0
+}
+
+.welcome-after-transition-leave-to {
+    transform: translate(100%)
+}
+
+.welcome-menu-transition-enter-active,
+.welcome-menu-transition-leave-active {
+    transition: all 1.2s cubic-bezier(.075, .82, .165, 1)
+}
+
+.welcome-menu-transition-enter-from {
+    transform: translateY(100%);
+    opacity: 0
+}
+
+.welcome-menu-transition-leave-to {
+    opacity: 0
+}

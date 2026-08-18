@@ -2,3 +2,8 @@
 # node_modules tree. Lives at the root now that the resource moved into llt_hud/,
 # so it needs the rule here rather than inside the resource.
 _work/
+
+# Aperçu du bandeau joueur, RÉGÉNÉRÉ par _work/band-preview.mjs depuis les vrais
+# modules de la ressource. Son générateur vit dans _work/, donc hors dépôt :
+# versionner la page sans lui donnerait un fichier que personne ne peut refaire.
+test/apercu-bandeau.html

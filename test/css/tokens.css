@@ -1,0 +1,197 @@
+/* ===========================================================================
+   Socle commun aux dix propositions
+   ---------------------------------------------------------------------------
+   Thème et primitives repris de ltl_multicharacter et ltl_loadingscreen, sous
+   LEURS contraintes, qui ne sont pas des goûts :
+
+     PAS DE CDN. Ni police, ni bibliothèque d'icônes. Une requête sortante
+     depuis une NUI échoue en silence dans la console cef, et un HUD est le
+     dernier endroit où attendre le réseau. La pile de polices est faite de
+     faces système. Les rares pictogrammes sont du SVG écrit dans la page.
+
+     PAS DE color-mix(). Le cef embarqué a plusieurs versions de retard, et une
+     déclaration qu'il ne comprend pas n'est pas approximée : elle est ignorée,
+     sans erreur. Toutes les teintes dérivées passent donc par rgba() sur des
+     canaux séparés (--hc-*-rgb), comme dans multichar.css.
+
+     PAS DE backdrop-filter. Une NUI est composée AU-DESSUS du jeu par le
+     moteur : côté page, derrière un panneau il n'y a pas la scène GTA mais le
+     fond transparent du document. Un flou d'arrière-plan floute donc du vide et
+     peint un rectangle noir à la place du panneau. La profondeur vient de
+     l'opacité de la surface et de l'ombre portée.
+
+   Chaque design ne redéfinit que sa disposition. Un thème se réécrit à chaud sur
+   .hud-corner, exactement comme multichar.js le fait depuis le Lua.
+   =========================================================================== */
+
+.hud-corner {
+    /* ---- thème du framework ---- */
+    --hc-primary: #8B5CF6;
+    --hc-secondary: #6D28D9;
+    --hc-accent: #C4B5FD;
+    --hc-text: #FFFFFF;
+    --hc-warn: #F0A63C;
+
+    --hc-primary-rgb: 139, 92, 246;
+    --hc-secondary-rgb: 109, 40, 217;
+    --hc-accent-rgb: 196, 181, 253;
+    --hc-text-rgb: 255, 255, 255;
+    --hc-warn-rgb: 240, 166, 60;
+
+    /* La surface est TEINTÉE, pas neutre assombrie : le violet est mélangé dans
+       le fond AVANT l'opacité. Mélangé après, il se diluerait dans la scène et
+       on retomberait sur un gris sale. Valeur reprise de --mc-panel-tint-rgb. */
+    --hc-tint-rgb: 56, 36, 97;
+    --hc-surface-opacity: .62;
+    --hc-panel: rgba(var(--hc-tint-rgb), var(--hc-surface-opacity));
+
+    /* Le gris-mauve des intitulés du framework est calibré contre un fond
+       presque noir ; posé sur une surface teintée il s'en rapproche trop, d'où
+       cette version tirée vers l'accent (= --mc-panel-muted). */
+    --hc-muted: rgb(181, 168, 228);
+    --hc-hairline: rgba(var(--hc-accent-rgb), .26);
+
+    --hc-radius: 16px;
+    --hc-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --hc-font: 'Inter', 'SF Pro Display', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+
+    /* ---- échelle ----
+       En clamp() et non en vw brut. ltl_hud dimensionne tout en vw, ce qui rend
+       le même bandeau illisible en 1366 (.6vw = 8 px) et disproportionné en 4K.
+       Un clamp borne les deux bouts tout en suivant l'écran entre les deux,
+       comme le --gutter du loadingscreen. */
+    --hc-label-size: clamp(8px, .52vw, 11px);
+    --hc-value-size: clamp(11.5px, .76vw, 16px);
+    --hc-pad-x: clamp(13px, .95vw, 22px);
+    --hc-pad-y: clamp(9px, .62vw, 15px);
+    --hc-field-gap: clamp(16px, 1.35vw, 34px);
+    --hc-inset: clamp(20px, 2vw, 40px);
+    --hc-logo-h: clamp(30px, 2.4vw, 52px);
+
+    position: absolute;
+    top: var(--hc-inset);
+    right: var(--hc-inset);
+    font-family: var(--hc-font);
+    color: var(--hc-text);
+    -webkit-font-smoothing: antialiased;
+    pointer-events: none;
+}
+
+/* ---------------------------------------------------------------- primitives */
+
+/* La surface. Une seule ombre, très étalée et remontée : elle décolle le bloc de
+   la scène sans dessiner de contour. Même construction que .mc-card. */
+.hc-panel {
+    background: var(--hc-panel);
+    border: 1px solid var(--hc-hairline);
+    border-radius: var(--hc-radius);
+    box-shadow: 0 26px 64px -32px rgba(0, 0, 0, .92);
+}
+
+/* Le filet d'accent : l'élément signature du loadingscreen (.identity__rule).
+   C'est lui qui rattache le bloc au reste des écrans du serveur, et il ne coûte
+   qu'un dégradé. */
+.hc-rule {
+    flex: none;
+    background: linear-gradient(180deg, var(--hc-primary), rgba(var(--hc-primary-rgb), 0));
+    box-shadow: 0 0 18px rgba(var(--hc-primary-rgb), .7);
+}
+
+.hc-rule[data-axis="x"] {
+    height: 2px;
+    background: linear-gradient(90deg, var(--hc-primary), rgba(var(--hc-primary-rgb), 0));
+}
+
+.hc-rule[data-axis="y"] { width: 2px; }
+
+/* Intitulé au-dessus de la valeur : le motif dt/dd de la fiche personnage
+   (.mc-card-fields), qui est la façon dont ce framework présente une donnée
+   nommée. Il rend l'icône inutile. */
+.hc-field {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+
+.hc-label {
+    font-size: var(--hc-label-size);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--hc-muted);
+    white-space: nowrap;
+}
+
+.hc-value {
+    font-size: var(--hc-value-size);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* L'identifiant est l'ancre du bloc : son intitulé prend l'accent plutôt que le
+   gris-mauve, comme .mc-card-slot au-dessus du nom du personnage. */
+.hc-field-uuid .hc-label { color: var(--hc-accent); }
+.hc-field-uuid .hc-value { font-weight: 700; }
+.hc-hash { color: var(--hc-primary); font-weight: 700; }
+
+/* Deux tons, et c'est la seule règle de couleur : une valeur qui ne dit rien
+   s'estompe, une valeur qui porte un fait légal passe en ambre. L'ambre est la
+   couleur du framework pour « attention », qui n'est pas « erreur » (--mc-lock)
+   — exactement le registre de l'argent sale et de la petite frappe. */
+.hc-value[data-tone="quiet"] { color: var(--hc-muted); font-weight: 500; }
+.hc-value[data-tone="flag"] { color: var(--hc-warn); }
+
+/* Pas de cadre autour du logo, et c'est délibéré : le loadingscreen le pose nu,
+   décollé par une ombre portée (.logo__image). Un caisson de plus lui ferait un
+   timbre-poste et ajouterait un bord au bloc. */
+.hc-logo {
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hc-logo img {
+    display: block;
+    max-height: var(--hc-logo-h);
+    max-width: clamp(60px, 4.6vw, 100px);
+    object-fit: contain;
+    filter: drop-shadow(0 6px 18px rgba(0, 0, 0, .65));
+}
+
+.hud-corner[data-logo="off"] .hc-logo { display: none; }
+
+/* ---------------------------------------------------------------- densité */
+
+/* Le HUD d'un serveur chargé n'a pas la même place que celui d'un serveur
+   sobre : la densité est un réglage, pas une réécriture. */
+.hud-corner[data-density="compact"] {
+    --hc-pad-y: clamp(7px, .46vw, 11px);
+    --hc-pad-x: clamp(11px, .78vw, 18px);
+    --hc-field-gap: clamp(12px, .95vw, 24px);
+    --hc-value-size: clamp(10.5px, .66vw, 14px);
+    --hc-label-size: clamp(7.5px, .46vw, 10px);
+    --hc-logo-h: clamp(24px, 1.9vw, 40px);
+    --hc-radius: 12px;
+}
+
+/* ---------------------------------------------------------------- entrée */
+
+.hc-enter { animation: hc-slide-in 520ms var(--hc-ease) both; }
+
+@keyframes hc-slide-in {
+    from { opacity: 0; transform: translateX(18px); }
+    to   { opacity: 1; transform: none; }
+}
+
+/* base.css du framework coupe toute animation sous cette préférence. On fait
+   pareil : une apparition n'est jamais assez utile pour l'ignorer. */
+@media (prefers-reduced-motion: reduce) {
+    .hc-enter { animation: none; }
+}

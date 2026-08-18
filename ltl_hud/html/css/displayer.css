@@ -1,0 +1,239 @@
+/* ===========================================================================
+   Bandeau d'informations du joueur — coin haut droit
+   ---------------------------------------------------------------------------
+   Disposition « Nu », la nº 8 des dix propositions de test/ : AUCUNE SURFACE. Les
+   valeurs sont posées à même la scène et décollées par une ombre portée, comme le
+   nom du serveur sur l'écran de chargement. Le coin ne compose plus huit
+   rectangles par-dessus le jeu — un par valeur, plus celui du logo — et ne cache
+   donc plus rien.
+
+   Ce que ça demande en échange, et qui n'est pas négociable : l'ombre est la
+   SEULE chose qui détache le texte du décor. D'où deux ombres sur chaque valeur,
+   une large pour le halo et une serrée pour le contour. Sur un décor clair et
+   chargé — plage en plein midi, façade blanche — cette disposition reste la plus
+   fragile des dix : c'est le prix de ne rien masquer.
+
+   L'intitulé en capitales espacées au-dessus de sa valeur remplace l'icône, et
+   fait mieux qu'elle : « ARGENT SALE » se lit, un billet dessiné se devine. Trois
+   fois « 0 $ » sans rien pour les distinguer, c'était l'état d'avant.
+
+   Trois contraintes, qui ne sont pas des goûts :
+
+     PAS DE color-mix(). Le cef embarqué a plusieurs versions de retard, et une
+     déclaration qu'il ne comprend pas n'est pas approximée : elle est ignorée,
+     sans erreur. Les teintes dérivées de la couleur du joueur sont calculées en
+     JavaScript (js/core/theme.js) et arrivent ici en canaux séparés, pour que
+     rgba() puisse les reprendre.
+
+     PAS DE backdrop-filter. Une NUI est composée AU-DESSUS du jeu par le moteur :
+     côté page, derrière un bloc il n'y a pas la scène GTA mais le fond
+     transparent du document. Un flou d'arrière-plan flouterait du vide et
+     peindrait un rectangle noir à la place.
+
+     DES clamp(), PAS DU vw BRUT. Le reste de l'interface dimensionne tout en vw,
+     ce qui donnait .6vw = 8 px de texte en 1366 et un bandeau disproportionné en
+     4K. Le clamp borne les deux bouts tout en suivant l'écran entre les deux.
+   =========================================================================== */
+
+/* Déclaré sur la classe seule et non sous `.ui-screen`, parce que les écrans de
+   positionnement et d'aperçu empruntent ce même conteneur et doivent le disposer
+   pareil. Il porte les jetons du bandeau : le logo est son deuxième enfant et en
+   hérite sans les redéclarer. */
+.top-right-content {
+    /* ---- couleurs ----
+       Toutes tirées de la couleur primaire du joueur, celle du menu réglages :
+       theme.js écrit --primary-color-rgb et --accent-color en même temps que
+       --primary-color. Le repli de chaque var() est là pour les frames qui
+       précèdent SEND_FULL_CFG. */
+    --band-primary: var(--primary-color, #ee1c3e);
+    --band-primary-rgb: var(--primary-color-rgb, 238, 28, 62);
+    --band-accent: var(--accent-color, rgb(249, 174, 186));
+    --band-text-rgb: 255, 255, 255;
+
+    /* L'ambre ne suit PAS la couleur du joueur, et c'est délibéré : c'est le
+       registre « attention », qui n'est pas « erreur », et il doit rester lisible
+       comme tel quelle que soit la teinte choisie. Un drapeau qui prend la couleur
+       du reste de l'interface ne signale plus rien. */
+    --band-warn: #f0a63c;
+
+    /* ---- échelle ---- */
+    --band-label-size: clamp(8px, .52vw, 11px);
+    --band-value-size: clamp(14px, .93vw, 19.5px);
+    --band-row-gap: clamp(9px, .62vw, 15px);
+    --band-field-gap: clamp(16px, 1.35vw, 34px);
+    --band-gap: clamp(13px, .95vw, 22px);
+    --band-inset: clamp(20px, 2vw, 40px);
+    --band-logo-height: clamp(30px, 2.4vw, 52px);
+
+    display: flex;
+    align-items: stretch;
+    gap: var(--band-gap)
+}
+
+.ui-screen .top-right-content {
+    position: absolute;
+    right: var(--band-inset);
+    top: var(--band-inset);
+    width: fit-content;
+    opacity: 0;
+    transition: opacity .125s ease-in-out
+}
+
+.ui-screen.visible .top-right-content {
+    opacity: 1
+}
+
+.position-screen .top-right-content,
+.preview-screen .top-right-content {
+    position: absolute;
+    right: var(--band-inset);
+    top: var(--band-inset);
+    width: fit-content
+}
+
+.position-screen.dragging .top-right-content {
+    opacity: .3
+}
+
+/* ------------------------------------------------------------------ le bloc */
+
+/* Le filet à gauche, les rangées à sa droite. */
+.displayers-content {
+    display: flex;
+    align-items: stretch;
+    gap: var(--band-gap);
+    min-width: 0
+}
+
+/* Le filet d'accent, l'élément signature de l'écran de chargement. Il n'est pas
+   décoratif ici : il donne au bloc un bord franc là où il n'y a plus de panneau
+   pour en dessiner un, et c'est lui qui rattache le bandeau au reste des écrans
+   du serveur. Le halo l'empêche de disparaître sur un décor de sa propre
+   couleur. */
+.displayers-content .rule {
+    flex: none;
+    width: 2px;
+    background: linear-gradient(180deg, var(--band-primary), rgba(var(--band-primary-rgb), 0));
+    box-shadow: 0 0 18px rgba(var(--band-primary-rgb), .7)
+}
+
+.displayers-content .body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--band-row-gap);
+    min-width: 0
+}
+
+/* Les rangées démarrent au filet ; c'est le bloc entier qui s'étend vers la
+   gauche de l'écran quand une valeur s'allonge, puisqu'il est ancré à droite.
+   `wrap` n'a d'effet que sur un métier à rallonge, où une seconde ligne vaut
+   mieux qu'un bandeau qui traverse tout le haut de l'écran. */
+.displayers-content .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--band-row-gap) var(--band-field-gap)
+}
+
+/* Intitulé au-dessus de sa valeur : le motif de la fiche personnage, qui est la
+   façon dont ce framework présente une donnée nommée. */
+.displayers-content .field {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0
+}
+
+.displayers-content .label {
+    font-size: var(--band-label-size);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: rgba(var(--band-text-rgb), .74);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, .95)
+}
+
+/* Deux ombres, et elles ne sont pas décoratives : sans panneau derrière, elles
+   sont la SEULE chose qui détache le texte du décor. Une large pour le halo, une
+   serrée pour le contour.
+
+   Pas d'`overflow: hidden` ici, contrairement à la primitive dont cette
+   disposition vient : la boîte est serrée sur le texte, et masquer le
+   débordement rognerait le halo à ras des lettres — soit exactement ce qui rend
+   la valeur lisible. Il ne coupait de toute façon rien : le bloc est en
+   `fit-content`, aucune valeur n'y est jamais contrainte en largeur. */
+.displayers-content .value {
+    font-size: var(--band-value-size);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -.01em;
+    white-space: nowrap;
+    color: #fff;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, .95), 0 1px 3px rgba(0, 0, 0, .9)
+}
+
+/* Deux tons, et c'est la SEULE règle de couleur du bandeau : une valeur qui ne
+   dit rien s'estompe, une valeur qui porte un fait légal passe en ambre. Estompé
+   veut dire « moins de blanc » et non « gris-mauve » : sans surface derrière, une
+   teinte froide n'a plus rien contre quoi contraster et devient illisible. */
+.displayers-content .value[data-tone="quiet"] {
+    color: rgba(var(--band-text-rgb), .62);
+    font-weight: 600
+}
+
+.displayers-content .value[data-tone="flag"] {
+    color: var(--band-warn)
+}
+
+/* L'identifiant est l'ancre du bloc : son intitulé prend l'accent là où les
+   autres restent blancs, et le « # » la couleur primaire. */
+.displayers-content .field-id .label {
+    color: var(--band-accent)
+}
+
+.displayers-content .field-id .value {
+    letter-spacing: .04em
+}
+
+.displayers-content .hash {
+    color: var(--band-primary);
+    font-weight: 700
+}
+
+/* Les cases de remplissage — UUID plus court que prévu, ou absent tant que
+   SET_PLAYER_DATA n'est pas arrivé — sont estompées plutôt que retirées, pour que
+   la puce garde sa largeur au lieu de se décaler à l'arrivée des données. */
+.displayers-content .digits .non-zero {
+    color: #fff
+}
+
+.displayers-content .digits .zero {
+    color: rgba(var(--band-text-rgb), .25)
+}
+
+/* ------------------------------------------------------------------- le logo */
+
+/* Posé nu, décollé par une ombre portée, comme sur l'écran de chargement. Le
+   cadre qu'il avait n'a plus lieu d'être : c'était la dernière surface du coin, et
+   une seule surface au milieu de valeurs posées à même la scène se lit comme un
+   oubli. Elle avait de toute façon son propre défaut — sur un décor sombre et à
+   --primary-background: rgba(0,0,0,.3), l'anneau était bien là mais invisible. */
+.server-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box
+}
+
+/* Bornes en clamp() et non en pourcentage : un `max-height: 100%` se résout
+   contre une hauteur que l'étirement n'a pas encore fixée, si bien qu'un logo de
+   512 px imposerait la sienne et ferait gonfler tout le coin. */
+.server-logo img {
+    display: block;
+    max-height: var(--band-logo-height);
+    max-width: clamp(60px, 4.6vw, 100px);
+    object-fit: contain;
+    filter: drop-shadow(0 6px 18px rgba(0, 0, 0, .65))
+}
