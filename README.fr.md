@@ -106,6 +106,13 @@ du slider de minimap — passent par la Web Animations API via `dom.js`. Les son
 simples éléments `Audio()` : les boucles réutilisent un élément, les sons ponctuels se
 superposent.
 
+Chaque effet est déclaré dans `core/sfx.js`. Ajouter `enabled: false` à une entrée le rend
+muet sans toucher à ses appelants :
+
+```js
+enter_welcome: { file: "enter_welcome.wav", volume: .2, enabled: true },
+```
+
 ## Contrat de messages
 
 Le Lua fait foi. L'interface enregistre **84** types de messages :

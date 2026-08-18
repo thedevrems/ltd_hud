@@ -14,6 +14,7 @@ files {
     'html/js/**/*.js',
     'html/assets/*.mp3',
     'html/assets/*.ogg',
+    'html/assets/*.wav',
     'stream/map_timecycle_stream.xml',
     'sprites/interaction.html',
     'sprites/point.html',

@@ -1,5 +1,6 @@
 const ASSET_PATH = "./assets/";
 
+// Set `enabled: false` on any entry to mute that effect without touching its callers.
 const DEFINITIONS = {
     click: { file: "click_ui.mp3", volume: .2 },
     enter: { file: "enter.mp3", volume: .2 },
@@ -8,7 +9,7 @@ const DEFINITIONS = {
     woosh2: { file: "woosh2.mp3", volume: .5 },
     soft_woosh: { file: "soft-woosh.mp3", volume: .1 },
     hard_woosh: { file: "woosh3.mp3", volume: .25 },
-    enter_welcome: { file: "enter_welcome.wav", volume: .2 },
+    enter_welcome: { file: "enter_welcome.wav", volume: .2, enabled: true },
     notify_enter: { file: "notify.mp3", volume: .4 },
     wind: { file: "wind.mp3", volume: .3 },
     buckle: { file: "buckle.ogg", volume: .2 },
@@ -21,6 +22,7 @@ class Sound {
         this.src = ASSET_PATH + definition.file;
         this.level = definition.volume;
         this.loop = !!definition.loop;
+        this.enabled = definition.enabled !== false;
         this.instances = new Set();
         this.looped = this.loop ? this.build() : null;
     }
@@ -35,6 +37,7 @@ class Sound {
 
     // Looping sounds reuse one element; one-shots overlap like Howler does.
     play() {
+        if (!this.enabled) return;
         if (this.loop) {
             this.looped.currentTime = 0;
             void this.looped.play().catch(() => {});

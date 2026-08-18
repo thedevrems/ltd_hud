@@ -103,6 +103,13 @@ curves â€” the black screen fade, the stagger reveal, the minimap slider sweep â
 Animations API through `dom.js`. Sounds are plain `Audio()` elements: looping effects reuse
 one element, one-shots overlap.
 
+Every effect is declared in `core/sfx.js`. Adding `enabled: false` to an entry mutes it
+without touching any caller:
+
+```js
+enter_welcome: { file: "enter_welcome.wav", volume: .2, enabled: true },
+```
+
 ## Message contract
 
 The Lua side is the authority. The interface registers **84** message types:
