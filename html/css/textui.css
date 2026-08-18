@@ -1,0 +1,150 @@
+/* Extracted from the Vue build; scope attributes removed. */
+
+.perspective-handler .keybinds-content {
+    width: 20vw;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    gap: .4vw;
+    perspective: 1000px;
+    transform: rotateX(0) rotateY(0) rotate(0);
+    transform-style: preserve-3d;
+    opacity: 1;
+    transition: all .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.perspective-handler .keybinds-content .keybind {
+    color: #fff;
+    display: flex;
+    gap: .25vw;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    max-height: 0vw;
+    opacity: 0;
+    transition: all .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.perspective-handler .keybinds-content .keybind.active {
+    opacity: 1;
+    max-height: 2.3vw
+}
+
+.perspective-handler .keybinds-content .keybind.done .key-bg {
+    background-color: var(--primary-color)
+}
+
+.perspective-handler .keybinds-content .keybind.done .bg {
+    background-color: var(--primary-color);
+    color: #1a1a1a
+}
+
+.perspective-handler .keybinds-content .keybind.done .key-bg .text {
+    color: #1a1a1a
+}
+
+.perspective-handler .keybinds-content .keybind.done .fill-keybind-key {
+    fill: #1a1a1a
+}
+
+.perspective-handler .keybinds-content .keybind.done .stroke-keybind-key {
+    stroke: #1a1a1a
+}
+
+.perspective-handler .keybinds-content .keybind .fill-keybind-key {
+    fill: var(--primary-color);
+    transition: all .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.perspective-handler .keybinds-content .keybind .stroke-keybind-key {
+    stroke: var(--primary-color);
+    transition: all .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.perspective-handler .keybinds-content .keybind .key-bg {
+    transform: translateZ(0);
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    background-color: var(--primary-background);
+    width: 2.25vw;
+    height: 2.25vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    position: relative;
+    transition: background-color .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.perspective-handler .keybinds-content .keybind .key-bg .key-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform: translateZ(7.5px)
+}
+
+.perspective-handler .keybinds-content .keybind .key-bg .key-overlay svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible
+}
+
+.perspective-handler .keybinds-content .keybind .key-bg .text {
+    color: #fff;
+    transform: translateZ(7.5px);
+    font-size: 1.05vw;
+    font-weight: 700;
+    transition: color .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.perspective-handler .keybinds-content .keybind .column {
+    display: flex;
+    flex-direction: column;
+    gap: .25vw;
+    width: 100%;
+    height: 2.25vw;
+    perspective: 1000px;
+    transform-style: preserve-3d
+}
+
+.perspective-handler .keybinds-content .keybind .progress {
+    width: 100%;
+    height: .25vw;
+    background-color: var(--primary-background);
+    display: flex;
+    justify-content: flex-start;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    flex-shrink: 0;
+    transition: background-color .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.perspective-handler .keybinds-content .keybind .progress .value {
+    width: 100%;
+    height: 100%;
+    background-color: var(--primary-color);
+    transform: translateZ(5px)
+}
+
+.perspective-handler .keybinds-content .keybind .bg {
+    transform: translateZ(0);
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: .65vw;
+    text-transform: uppercase;
+    font-weight: 500;
+    background-color: var(--primary-background);
+    color: #fff;
+    box-sizing: border-box;
+    padding: 0 1vw;
+    transition: background-color .48s cubic-bezier(.075, .82, .165, 1), color .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.perspective-handler .keybinds-content .keybind .bg .text {
+    transform: translateZ(5.5px)
+}

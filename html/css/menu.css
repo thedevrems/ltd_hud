@@ -1,0 +1,82 @@
+.menu {
+    position: absolute;
+    top: 50%;
+    right: -10.5vw;
+    transform: translateY(-50%);
+    display: flex;
+    opacity: 0;
+    pointer-events: none;
+    transition: all .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.menu.active {
+    right: -2.5vw;
+    opacity: 1
+}
+
+.menu .icon {
+    width: 5vw;
+    height: 5vw;
+    border-radius: 50%;
+    background-color: var(--primary-background);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: #ffffff41
+}
+
+.menu .icon svg {
+    margin-right: 2vw
+}
+
+.menu .elements {
+    position: absolute;
+    top: 40%;
+    transform: translateY(-50%);
+    right: 3.5vw;
+    width: 20vw;
+    height: 8vw
+}
+
+.menu .elements .element {
+    display: flex;
+    opacity: 0;
+    font-size: .8vw;
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    transition: all .48s cubic-bezier(.075, .82, .165, 1);
+    font-weight: 500;
+    color: #fff
+}
+
+.menu .elements .element.active {
+    opacity: 1;
+    right: 4vw;
+    top: 50%
+}
+
+.menu .elements .element.surrounding-top-1 {
+    right: 3vw;
+    top: 25%;
+    opacity: .3
+}
+
+.menu .elements .element.surrounding-top-2 {
+    right: 2vw;
+    top: 0%;
+    opacity: .1
+}
+
+.menu .elements .element.surrounding-bottom-1 {
+    right: 3vw;
+    top: 75%;
+    opacity: .3
+}
+
+.menu .elements .element.surrounding-bottom-2 {
+    right: 2vw;
+    top: 100%;
+    opacity: .1
+}

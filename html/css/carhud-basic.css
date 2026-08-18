@@ -1,0 +1,161 @@
+/* Extracted from the Vue build; scope attributes removed. */
+
+.carhud-basic {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+
+.carhud-basic .content {
+    width: 100%;
+    margin-top: auto;
+    height: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    pointer-events: none
+}
+
+.carhud-basic .content .speed-box {
+    display: flex
+}
+
+.carhud-basic .content .speed-box .speed {
+    color: var(--primary-color);
+    font-weight: 700;
+    font-size: 3.5vw;
+    width: 2.3vw;
+    text-align: right
+}
+
+.carhud-basic .content .metrics {
+    font-size: .75vw;
+    position: relative;
+    top: -3%;
+    font-weight: 600;
+    color: var(--primary-background)
+}
+
+.carhud-basic .content .speed-box .speed-0 {
+    color: var(--primary-background)
+}
+
+.carhud-basic .content .gear {
+    width: 30%;
+    height: 15%;
+    background-color: var(--primary-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #1a1a1a;
+    font-weight: 700;
+    font-size: 2.8vw;
+    margin-top: .8vw;
+    border-radius: 1vw
+}
+
+.carhud-basic.game-ratio .content .gear {
+    font-size: 2vw
+}
+
+.carhud-basic.welcome-ratio .content .gear {
+    font-size: 1.8vw
+}
+
+.carhud-basic>svg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    overflow: visible;
+    pointer-events: none
+}
+
+.carhud-basic .strokeProgress {
+    stroke: var(--primary-color);
+    stroke-dasharray: 0;
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.carhud-basic .strokeBackground {
+    stroke: var(--primary-background)
+}
+
+.carhud-basic .content .fuel-icon {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%);
+    color: #1a1a1a;
+    font-size: 1.1424vw
+}
+
+.carhud-basic.game-ratio .content .fuel-icon {
+    font-size: .8vw
+}
+
+.carhud-basic .content .items {
+    position: absolute;
+    bottom: 0vw;
+    width: 100%;
+    display: flex;
+    justify-content: space-between
+}
+
+.carhud-basic .content .items .item {
+    width: calc(1.75vw * 1.428);
+    height: calc(1.75vw * 1.428);
+    display: flex;
+    align-items: flex-end;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    background-color: var(--primary-background);
+    transition: background-color .125s ease-in-out
+}
+
+.carhud-basic.game-ratio .content .items .item {
+    width: 1.75vw;
+    height: 1.75vw
+}
+
+.carhud-basic .content .items .item.disabled {
+    opacity: 0 !important
+}
+
+.carhud-basic .content .items .item .icon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.1424vw;
+    color: #1a1a1a
+}
+
+.carhud-basic.game-ratio .content .items .item .icon {
+    font-size: .8vw
+}
+
+.carhud-basic .content .items .item.active {
+    background-color: var(--primary-color);
+    animation: none !important
+}
+
+.carhud-basic .content .items .item.unfastenIndicate {
+    animation: carhudUnfasten .5s infinite
+}
+
+.carhud-basic .content .items .item .progress {
+    width: 100%;
+    height: 100%;
+    background: var(--primary-color);
+    transition: height .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.carhud-basic.game-ratio .speed {
+    font-size: 1vw
+}

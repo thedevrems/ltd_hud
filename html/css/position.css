@@ -1,0 +1,195 @@
+.position-screen {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    box-shadow: inset 0 0 #000;
+    overflow: hidden;
+    transition: box-shadow .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.position-screen.dragging {
+    box-shadow: inset 0 0 5vw #000
+}
+
+.center-content {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff
+}
+
+.center-content .info {
+    display: flex;
+    flex-direction: column
+}
+
+.center-content .header {
+    font-size: 2.865vw;
+    text-transform: uppercase;
+    font-weight: 800;
+    height: 3.2vw
+}
+
+.center-content .row {
+    display: flex;
+    flex-direction: column;
+    gap: .2vw;
+    margin-left: .2vw;
+    font-size: .75vw
+}
+
+.center-content .row .line {
+    width: .3vw;
+    background-color: var(--primary-color)
+}
+
+.center-content .row .text {
+    font-weight: 500;
+    box-sizing: border-box;
+    padding: .2vw .2vw .2vw .5vw;
+    border-left: .3vw solid var(--primary-color)
+}
+
+.live-settings-content {
+    position: absolute;
+    left: 1vw;
+    top: 2vw;
+    display: flex;
+    flex-direction: column;
+    gap: .25vw;
+    width: 18vw;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 999999999;
+    transform: translate(-5vw);
+    transition: transform .48s cubic-bezier(.075, .82, .165, 1), opacity .125s ease-in-out
+}
+
+.live-settings-content.active {
+    opacity: 1;
+    transform: translate(0);
+    pointer-events: all
+}
+
+.live-settings-content .selected-ui {
+    font-size: 1vw;
+    text-transform: uppercase;
+    font-weight: 800;
+    box-sizing: border-box;
+    padding: .4vw 0;
+    text-align: center;
+    color: #1a1a1a;
+    background-color: var(--primary-color)
+}
+
+.live-settings-content .item-content {
+    width: 100%;
+    background-color: var(--primary-background);
+    box-sizing: border-box;
+    padding: .7vw;
+    display: flex;
+    flex-direction: column;
+    gap: .2vw
+}
+
+.live-settings-content .item-content .label {
+    font-size: .7vw;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: #fff
+}
+
+.position-screen .hud-content {
+    display: flex;
+    z-index: 1;
+    position: absolute;
+    left: 45%;
+    height: 2vw !important;
+    top: calc(100% - 4vw);
+    transition: all .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.position-screen>.hud-content.diamondGap {
+    gap: 2vw
+}
+
+.position-screen>.hud-content .hud-element {
+    width: 2.25vw;
+    height: 2.25vw
+}
+
+.position-screen.dragging .hud-content {
+    opacity: .3
+}
+
+.position-screen.dragging-hud .hud-content {
+    opacity: 1 !important
+}
+
+.position-screen>.notify-content {
+    display: flex;
+    flex-direction: column;
+    width: 20vw !important;
+    height: fit-content !important;
+    position: absolute;
+    top: 6vw;
+    left: calc(100% - 22vw);
+    z-index: 1;
+    transition: all .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.position-screen.dragging .notify-content {
+    opacity: .3
+}
+
+.position-screen.dragging-notify .notify-content {
+    opacity: 1 !important
+}
+
+.position-screen .carhud-content {
+    position: absolute;
+    top: calc(100% - 16.5vw);
+    left: calc(100% - 16.5vw);
+    width: fit-content !important;
+    height: fit-content !important;
+    z-index: 1;
+    transition: all .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.position-screen .carhud-content .carhud-element {
+    min-width: 14.5vw;
+    height: 14.5vw
+}
+
+.position-screen.dragging .carhud-content {
+    opacity: .3
+}
+
+.position-screen.dragging-carhud .carhud-content {
+    opacity: 1 !important
+}
+
+.position-screen.dragging .progressbar {
+    opacity: .3
+}
+
+.position-screen.dragging-progressBar .progressbar {
+    opacity: 1 !important
+}
+
+.position-screen .top-left-content {
+    position: absolute;
+    left: 2vw;
+    top: 2vw;
+    width: fit-content
+}
+
+.position-screen.dragging .top-left-content {
+    opacity: .3
+}

@@ -1,0 +1,199 @@
+/* Extracted from the Vue build; scope attributes removed. */
+
+.progressbar-content {
+    width: auto;
+    height: auto;
+    transform: translate(-20%);
+    opacity: 0;
+    transition: all .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.progressbar-content.active {
+    transform: translate(0);
+    opacity: 1
+}
+
+.progressbar-basic {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: .25vw
+}
+
+.progressbar-basic.isMenu {
+    width: 15vw;
+    transform: scale(1.35)
+}
+
+.progressbar-basic.isGameMenu {
+    width: 15vw
+}
+
+.progressbar-basic .icon {
+    width: 2vw;
+    height: 2vw;
+    background-color: var(--primary-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: .75vw;
+    flex-shrink: 0
+}
+
+.progressbar-basic .progress {
+    width: 100%;
+    align-self: stretch;
+    background-color: var(--primary-background);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative
+}
+
+.progressbar-basic .progress .value {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 25%;
+    height: 100%;
+    background-color: var(--primary-color)
+}
+
+.progressbar-basic .progress .text {
+    position: relative;
+    z-index: 5;
+    font-size: .75vw;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #fff;
+    box-sizing: border-box;
+    padding: .5vw 1vw
+}
+
+.progressbar-modern {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: .25vw;
+    min-width: 15vw
+}
+
+.progressbar-modern.isMenu {
+    transform: scale(1.45)
+}
+
+.progressbar-modern.isGameMenu {
+    width: 15vw
+}
+
+.progressbar-modern .icon {
+    width: 2vw;
+    height: 2vw;
+    background-color: var(--primary-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: .75vw;
+    flex-shrink: 0
+}
+
+.progressbar-modern .progress {
+    width: 100%;
+    align-self: stretch;
+    background-color: var(--primary-background);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    height: 1vw
+}
+
+.progressbar-modern .progress .value {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 30%;
+    height: 100%;
+    background-color: var(--primary-color);
+    transition: width .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.progressbar-modern .column {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: .25vw
+}
+
+.progressbar-modern.isMenu .text {
+    color: #1a1a1a
+}
+
+.progressbar-modern .text {
+    margin-top: auto;
+    position: relative;
+    font-size: .65vw;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #fff
+}
+
+.progressbar-diamond {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    gap: .25vw;
+    position: relative
+}
+
+.progressbar-diamond.isMenu {
+    width: 15vw;
+    transform: scale(1.35)
+}
+
+.progressbar-diamond .progress {
+    width: 3vw;
+    height: 3vw;
+    background-color: var(--primary-background);
+    transform: rotate(45deg);
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    position: relative
+}
+
+.progressbar-diamond .progress .value {
+    width: 30%;
+    height: 100%;
+    background-color: var(--primary-color)
+}
+
+.progressbar-diamond .progress .icon {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    color: #1a1a1a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: rotate(-45deg);
+    font-size: 1.1vw
+}
+
+.progressbar-diamond .text {
+    position: absolute;
+    left: 1.7vw;
+    top: 1.55vw;
+    box-sizing: border-box;
+    white-space: nowrap;
+    padding: .56vw 2.56vw;
+    text-transform: uppercase;
+    color: #fff;
+    font-size: .8vw;
+    flex-shrink: 0;
+    clip-path: polygon(2.15vw 0, 100% 0, calc(100% - 2.15vw) 100%, 0% 100%);
+    font-weight: 600;
+    background-color: var(--primary-background)
+}

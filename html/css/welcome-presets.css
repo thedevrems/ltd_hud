@@ -1,0 +1,103 @@
+.presets-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    box-sizing: border-box;
+    padding: 10vw;
+    position: absolute;
+    left: 0;
+    top: 0%
+}
+
+.presets-content .presets-list {
+    width: 100%;
+    display: flex;
+    justify-content: space-between
+}
+
+.presets-content .presets-list .preset {
+    width: 32vw;
+    height: 35vw;
+    background-color: #00000003;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 4vw 3vw;
+    position: relative;
+    box-shadow: 0 0 #00000050;
+    transition: all .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.presets-content .presets-list .preset:hover {
+    box-shadow: 0 0 1.5vw #00000050;
+    background-color: #fff
+}
+
+.presets-content .presets-list .preset .recommended {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: .2vw;
+    pointer-events: none
+}
+
+.presets-content .presets-list .preset .recommended .icon {
+    width: .9vw;
+    height: .9vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: scale(.8)
+}
+
+.presets-content .presets-list .preset .recommended .icon svg {
+    width: .9vw;
+    height: .9vw
+}
+
+.presets-content .presets-list .preset .recommended .text {
+    font-size: .8vw;
+    text-transform: uppercase;
+    font-weight: 800
+}
+
+.presets-content .presets-list .preset .blank {
+    width: 100%;
+    height: .928vw;
+    pointer-events: none
+}
+
+.presets-content .presets-list .header {
+    position: absolute;
+    left: 0%;
+    width: 100%;
+    text-align: center;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2vw;
+    text-transform: uppercase;
+    font-weight: 700;
+    pointer-events: none
+}
+
+.presets-content .presets-list .preset .text-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1vw;
+    align-items: center;
+    pointer-events: none
+}
+
+.presets-content .presets-list .preset .text-content .icon {
+    width: 3vw;
+    opacity: .3
+}
+
+.presets-content .presets-list .preset .text-content .text {
+    font-size: .75vw
+}

@@ -1,0 +1,107 @@
+/* Extracted from the Vue build; scope attributes removed. */
+
+.notify-diamond {
+    width: 100%;
+    background-color: var(--primary-background);
+    box-sizing: border-box;
+    padding: .8vw;
+    display: flex;
+    align-items: center;
+    gap: .75vw;
+    position: relative;
+    margin-bottom: .5vw;
+    border-radius: 0;
+    transition: all .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.notify-diamond.smoothEdges {
+    border-radius: .5vw
+}
+
+.notify-diamond .progress {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: .2vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--primary-background)
+}
+
+.notify-diamond .progress .value {
+    width: 50%;
+    height: 100%;
+    background-color: var(--primary-color)
+}
+
+.notify-diamond .row {
+    display: flex;
+    align-items: center;
+    gap: .25vw
+}
+
+.notify-diamond .header {
+    font-size: .8vw;
+    font-weight: 500;
+    color: #fff
+}
+
+.notify-diamond .icon {
+    flex-shrink: 0;
+    font-size: .9vw;
+    color: #000000e6;
+    background-color: var(--primary-background);
+    width: 2.35vw;
+    height: 2.35vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: .25vw;
+    border-radius: 0;
+    overflow: hidden;
+    transform: rotate(45deg) translate(-1.375vw, 1.375vw) scale(.9);
+    transition: border-radius .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.notify-diamond .icon .progress-value {
+    width: 100%;
+    height: 100%;
+    background-color: var(--primary-color);
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    transition: all .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.notify-diamond .icon .converted-icon {
+    position: relative;
+    z-index: 9999;
+    transform: rotate(-45deg)
+}
+
+.notify-diamond.smoothEdges .icon {
+    border-radius: .25vw
+}
+
+.notify-diamond .text {
+    font-size: .6vw;
+    color: #fff9;
+    font-weight: 400;
+    display: flex;
+    gap: .15vw
+}
+
+.notify-diamond .text.centerized {
+    margin: 0 auto;
+    transform: translate(-2vw);
+    color: #fff
+}
+
+.notify-diamond .col {
+    display: flex;
+    flex-direction: column;
+    gap: 0vw;
+    transform: translate(-2vw)
+}

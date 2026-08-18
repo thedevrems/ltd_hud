@@ -1,0 +1,126 @@
+/* Extracted from the Vue build; scope attributes replaced by container scopes. */
+
+.weapon-indicator {
+    display: flex;
+    flex-direction: column;
+    gap: .2vw;
+    opacity: 0;
+    transition: all .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.weapon-indicator.visible {
+    opacity: 1
+}
+
+.weapon-indicator .row {
+    display: flex;
+    align-items: center;
+    gap: .2vw;
+    color: #fff
+}
+
+.weapon-indicator .progress {
+    width: 100%;
+    height: .3vw;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: var(--primary-background)
+}
+
+.weapon-indicator .progress .value {
+    width: 0;
+    height: 100%;
+    background-color: var(--primary-color);
+    transition: width .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.weapon-indicator .row .weapon-data {
+    display: flex;
+    flex-direction: column;
+    gap: 0vw;
+    background-color: var(--primary-background);
+    box-sizing: border-box;
+    padding: 1vw 1.5vw;
+    width: 100%
+}
+
+.weapon-indicator .row .weapon-data .label {
+    font-size: .55vw;
+    text-transform: uppercase
+}
+
+.weapon-indicator .row .weapon-data .text-content {
+    display: flex;
+    align-items: center;
+    gap: .6vw
+}
+
+.weapon-indicator .row .weapon-data .text-content .square {
+    width: .5vw;
+    height: .5vw;
+    background-color: var(--primary-color);
+    transform: rotate(45deg)
+}
+
+.weapon-indicator .row .weapon-data .text-content .name {
+    font-size: 1.5vw;
+    text-transform: uppercase;
+    font-weight: 700
+}
+
+.weapon-indicator .row .weapon-ammo {
+    width: 5.25vw;
+    background-color: var(--primary-background);
+    box-sizing: border-box;
+    padding: 1vw 1.5vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative
+}
+
+.weapon-indicator .row .weapon-ammo .ammo {
+    font-size: 1.5vw;
+    font-weight: 700
+}
+
+.weapon-indicator .row .weapon-ammo .magazines {
+    position: absolute;
+    left: 65%;
+    top: 28%;
+    font-size: .7vw;
+    transform: translate(-50%, -50%)
+}
+
+.perspective-content>.weapon-indicator {
+    width: 100%;
+    transform-origin: bottom left;
+    overflow: hidden;
+    max-height: 0;
+    transform: translateZ(100px)
+}
+
+.perspective-content>.weapon-indicator.visible {
+    max-height: 6vw
+}
+
+.perspective-content>.weapon-indicator .row .weapon-ammo {
+    height: 100%
+}
+
+.weapon-indicator-2d-content {
+    position: absolute;
+    right: 2vw;
+    bottom: 2vw
+}
+
+.weapon-indicator-2d-content .weapon-indicator {
+    min-width: 15vw;
+    transform-origin: bottom right;
+    transform: scale(.7)
+}
+
+.weapon-indicator-2d-content .weapon-indicator .row .weapon-ammo {
+    align-self: stretch
+}

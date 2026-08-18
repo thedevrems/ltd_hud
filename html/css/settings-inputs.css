@@ -1,0 +1,209 @@
+.checkbox.config {
+    display: flex;
+    gap: .5vw;
+    opacity: 1;
+    transition: opacity .125s ease-in-out
+}
+
+.checkbox.disable {
+    opacity: .5
+}
+
+.checkbox.disable .text-content {
+    color: #ffffff40 !important
+}
+
+.checkbox.config .text-content {
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 1.2vw 1.6vw;
+    background-color: var(--default-background-game-menu);
+    color: #fff;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: .7vw;
+    letter-spacing: .05vw
+}
+
+.checkbox .true-false-content {
+    width: 20%;
+    height: 100%;
+    background-color: var(--default-background-game-menu);
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+
+.checkbox .checkboxsvg {
+    width: 1.2vw;
+    height: 1.2vw;
+    transform: rotate(0);
+    transition: all .48s cubic-bezier(.075, .82, .165, 1);
+    pointer-events: none
+}
+
+.checkbox .checkboxsvg path {
+    stroke-opacity: .15;
+    transition: all .125s ease-in-out
+}
+
+.checkbox .checkboxsvg.active {
+    transform: rotate(44.999deg)
+}
+
+.checkbox .checkboxsvg.active path {
+    stroke-opacity: 1;
+    stroke: var(--primary-color) !important
+}
+
+.range.config {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: .5vw;
+    opacity: 1;
+    transition: all .125s ease-in-out
+}
+
+.range.disabled {
+    opacity: .1;
+    pointer-events: none
+}
+
+.range .range-texts-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: .5vw;
+    font-weight: 500;
+    opacity: .3
+}
+
+.range .range-progress-parent {
+    width: 100%;
+    height: .7vw;
+    background-color: var(--default-background-game-menu);
+    box-sizing: border-box;
+    padding: .17vw .2vw;
+    display: flex;
+    align-items: center;
+    gap: .15vw
+}
+
+.range .range-progress-parent .range-progress-value {
+    width: 0%;
+    height: 100%;
+    background-color: var(--primary-color)
+}
+
+.range .range-progress-parent .progress-mouse-handle {
+    width: .2vw;
+    height: 1.2vw;
+    background-color: #fff;
+    cursor: grab
+}
+
+.color-picker {
+    display: flex;
+    gap: .5vw;
+    opacity: 1;
+    transition: opacity .125s ease-in-out
+}
+
+.color-picker.disable {
+    opacity: .25;
+    pointer-events: none
+}
+
+.color-picker .picker-content {
+    width: 2.97vw;
+    height: 2.97vw;
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--default-background-game-menu)
+}
+
+.color-picker.full .picker-content {
+    width: 100%
+}
+
+.color-picker .picker-content .icon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    font-size: 1vw;
+    font-weight: 500;
+    text-transform: uppercase;
+    pointer-events: none;
+    width: 100%;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    transition: color .125s ease-in-out
+}
+
+.color-picker .picker-content .pickr {
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    padding: 0 !important
+}
+
+.color-picker input[type=color]::-webkit-color-swatch-wrapper {
+    padding: 0 !important
+}
+
+.color-picker input[type=color]::-webkit-color-swatch {
+    -webkit-user-modify: read-only !important;
+    border-width: 0 !important;
+    border-style: none !important;
+    border-color: transparent !important
+}
+
+.components-visibility {
+    margin-top: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: .2vw
+}
+
+.components-visibility .text {
+    color: #fff;
+    font-size: .95vw;
+    opacity: .3;
+    text-transform: uppercase;
+    font-weight: 600
+}
+
+.components-visibility .row {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: .2vw
+}
+
+.components-visibility .row .component-handler {
+    width: 2.5vw;
+    height: 2.5vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: .75vw;
+    color: var(--primary-color);
+    background-color: var(--default-background-game-menu);
+    transition: all .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.components-visibility .row .component-handler.active {
+    background-color: var(--primary-color);
+    color: #1a1a1a
+}

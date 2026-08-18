@@ -1,0 +1,84 @@
+/* Extracted from the Vue build; scope attributes removed. */
+
+.notify-default {
+    width: 100%;
+    background-color: var(--primary-background);
+    box-sizing: border-box;
+    padding: .8vw;
+    display: flex;
+    align-items: center;
+    gap: .5vw;
+    position: relative;
+    margin-bottom: .5vw;
+    border-radius: 0;
+    transition: all .48s cubic-bezier(.075, .82, .165, 1);
+    overflow: hidden
+}
+
+.notify-default.smoothEdges {
+    border-radius: .5vw
+}
+
+.notify-default .progress {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: .2vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--primary-background)
+}
+
+.notify-default .progress .value {
+    width: 50%;
+    height: 100%;
+    background-color: var(--primary-color)
+}
+
+.notify-default .row {
+    display: flex;
+    align-items: center;
+    gap: .25vw
+}
+
+.notify-default .header {
+    font-size: .8vw;
+    font-weight: 500;
+    color: #fff
+}
+
+.notify-default .icon {
+    flex-shrink: 0;
+    font-size: .9vw;
+    color: #000000e6;
+    background-color: var(--primary-color);
+    width: 2.35vw;
+    height: 2.35vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: .25vw;
+    border-radius: 50%;
+    transition: border-radius .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.notify-default .text {
+    font-size: .6vw;
+    color: #fff9;
+    font-weight: 400;
+    display: flex;
+    gap: .15vw
+}
+
+.notify-default .text.centerized {
+    color: #fff;
+    margin: 0 auto
+}
+
+.notify-default .col {
+    display: flex;
+    flex-direction: column;
+    gap: .5vw
+}

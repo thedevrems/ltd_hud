@@ -9,10 +9,12 @@ ui_page 'html/index.html'
 
 files {
     'html/index.html',
-    'html/assets/*.js',
-    'html/assets/*.css',
+    'html/css/*.css',
+    'html/js/*.js',
+    'html/js/**/*.js',
     'html/assets/*.mp3',
     'html/assets/*.ogg',
+    'html/assets/*.wav',
     'stream/map_timecycle_stream.xml',
     'sprites/interaction.html',
     'sprites/point.html',
