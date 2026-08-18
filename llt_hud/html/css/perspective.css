@@ -1,0 +1,145 @@
+/* Extracted from the Vue build; scope attributes removed. */
+
+.perspective-handler {
+    display: flex;
+    justify-content: space-between;
+    gap: .5vw;
+    position: absolute;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    overflow: visible !important;
+    backface-visibility: hidden;
+    width: 54vw;
+    left: 42%;
+    top: 50%;
+    transform: translateY(-50%) translate(-50%);
+    transition: all .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.perspective-handler.aiming {
+    top: 65%
+}
+
+.perspective-handler.inVeh {
+    left: 50% !important;
+    width: 65vw !important;
+    top: 60%
+}
+
+.perspective-handler.aiming .keybinds-content {
+    opacity: 0
+}
+
+.perspective-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 20vw;
+    transform: rotateX(0) rotateY(0) rotate(0);
+    transform-style: preserve-3d;
+    transition: all 2s cubic-bezier(.075, .82, .165, 1)
+}
+
+.hold-wrapper {
+    width: 100%;
+    max-height: 0;
+    opacity: 0;
+    box-sizing: border-box;
+    padding: 0 .5vw;
+    transition: all .48s cubic-bezier(.075, .82, .165, 1);
+    transform: translateZ(200px)
+}
+
+.hold-wrapper.visible {
+    opacity: 1;
+    max-height: 4vw
+}
+
+.perspective-content .hold-wrapper .hold-content {
+    width: 100%
+}
+
+.perspective-content .hold-wrapper .hold-content .hud {
+    width: 100%;
+    display: flex;
+    gap: .5vw;
+    perspective: 1000px
+}
+
+.perspective-content .hold-wrapper .hold-content .hud-element {
+    width: 2.5vw;
+    height: 2.5vw !important
+}
+
+.perspective-content>.pre-row {
+    display: flex;
+    align-items: center;
+    gap: .5vw;
+    width: 100%
+}
+
+.perspective-content>.pre-row>.column {
+    display: none;
+    flex-direction: column;
+    gap: .5vw;
+    width: 50%;
+    height: 2.55vw
+}
+
+.perspective-content>.pre-row>.column>.status-element {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    flex-shrink: 0;
+    height: calc(50% - .25vw);
+    box-sizing: border-box;
+    padding: .5vw;
+    gap: .25vw;
+    opacity: 1;
+    overflow: hidden;
+    background-color: var(--primary-background);
+    transition: all .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.perspective-content>.pre-row>.column>.status-element .icon {
+    color: var(--primary-color);
+    align-items: center;
+    font-size: .65vw;
+    flex-shrink: 0;
+    width: 1.275vw;
+    height: 1.275vw;
+    display: flex;
+    justify-content: center
+}
+
+.perspective-content>.pre-row>.column>.status-element .progress {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    background-color: var(--primary-background)
+}
+
+.perspective-content>.pre-row>.column>.status-element .progress .value {
+    width: 20%;
+    height: .25vw;
+    background-color: var(--primary-color)
+}
+
+/* The notify queue when it is drawn inside the rig instead of the flat corner. */
+.visible-content {
+    display: flex;
+    flex-direction: column;
+    transform: translateZ(0)
+}
+
+.perspective-content .notify-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 1vw;
+    transform-origin: top left;
+    transform: scale(.85)
+}

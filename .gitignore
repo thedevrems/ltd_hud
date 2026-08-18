@@ -1,1 +1,4 @@
+# Vue build reference and its jsdom smoke harness: local tooling, with a
+# node_modules tree. Lives at the root now that the resource moved into llt_hud/,
+# so it needs the rule here rather than inside the resource.
 _work/

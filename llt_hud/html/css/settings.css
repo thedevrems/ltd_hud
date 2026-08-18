@@ -1,0 +1,133 @@
+.game-menu-child .settings-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    gap: 1vw
+}
+
+.game-menu-child .settings-content .column {
+    width: calc(50% - 1.2vw);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: .5vw
+}
+
+.game-menu-child>.header,
+.game-menu-child .settings-content .column>.header {
+    color: #fff;
+    font-size: .95vw;
+    opacity: .3;
+    text-transform: uppercase;
+    font-weight: 600
+}
+
+.game-menu-child .content-preview {
+    position: absolute;
+    right: -60%;
+    top: 40%;
+    width: 10vw;
+    height: 10vw;
+    transform: translate(50%, -50%)
+}
+
+/* Vue wrapped every preview in a <Transition name="clippath">. */
+.clippath-enter-active {
+    transition: all .8s cubic-bezier(.075, .82, .165, 1)
+}
+
+.clippath-leave-active {
+    opacity: 1;
+    transition: all .5s cubic-bezier(.075, .82, .165, 1)
+}
+
+.clippath-enter-from {
+    transform: translate(-100%);
+    opacity: 0
+}
+
+.clippath-leave-to {
+    transform: translate(200%);
+    opacity: 0
+}
+
+#settings-color .settings-content .column .row {
+    width: 100%;
+    display: flex;
+    gap: .5vw;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    background-color: var(--default-background-game-menu);
+    box-sizing: border-box;
+    padding: .5vw
+}
+
+#settings-hud .content-preview .hud-element {
+    position: absolute;
+    left: 0;
+    top: 0
+}
+
+#settings-notifications .content-preview,
+#settings-helpnotify .content-preview {
+    width: 20vw;
+    height: 20vw;
+    transform: translate(50%, -50%) scale(1.3);
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+
+#settings-notifications .content-preview .notify-element,
+#settings-helpnotify .content-preview .helpnotify-element {
+    position: absolute;
+    left: 0;
+    top: 35%
+}
+
+/* ".notify-element" is collapsed by default because the live queue opens it with
+   its enter animation. The build scoped that to the in-game component; with the
+   scopes gone it also reaches this preview, which never animates. Reopen it. */
+#settings-notifications .content-preview .notify-element {
+    max-height: none;
+    opacity: 1
+}
+
+#settings-progressbar .content-preview {
+    transform: translate(50%, -50%) scale(1.75)
+}
+
+#settings-progressbar .content-preview .progress-bar-element {
+    position: absolute;
+    left: -5vw;
+    top: 50%;
+    transform: translateY(-50%) translate(0)
+}
+
+#settings-progressbar .content-preview .clippath-enter-from {
+    transform: translateY(-50%) translate(-100%);
+    opacity: 0
+}
+
+#settings-progressbar .content-preview .clippath-leave-to {
+    transform: translateY(-50%) translate(100%);
+    opacity: 0
+}
+
+#settings-carhud .content-preview {
+    width: 20vw;
+    height: 20vw
+}
+
+#settings-carhud .content-preview .carhud-element {
+    position: absolute;
+    left: 0;
+    top: 0
+}
+
+#settings-carhud .margin-top {
+    width: 100%;
+    margin-top: auto
+}
