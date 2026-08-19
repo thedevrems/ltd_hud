@@ -136,10 +136,10 @@ Config.UI.Preset['progressBar'] = {
     },
 }
 
--- Le composant musique est éteint au démarrage par Storage.HandleConfig, donc ces
--- valeurs ne servent jamais. Le bloc reste néanmoins OBLIGATOIRE :
--- applyMusicFallbacks() lit `Preset.music.url` sans garde, et le retirer ferait
--- échouer tout le démarrage de la page, musique ou pas.
+-- Piste jouée sous le menu principal tant que le compte n'a pas fourni la
+-- sienne sur l'écran « thème musical ». Le bloc est OBLIGATOIRE même avec
+-- Config.UI.UseMusic à false : applyMusicFallbacks() lit `Preset.music.url`
+-- sans garde, et le retirer ferait échouer tout le démarrage de la page.
 Config.UI.Preset['music'] = {
     url = 'https://www.youtube.com/watch?v=9RriQbnddsw',
     volume = 30,

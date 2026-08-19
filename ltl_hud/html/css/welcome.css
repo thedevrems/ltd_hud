@@ -1,8 +1,113 @@
-/* Welcome shell: the black backdrop, its outlet and the stagger overlay. */
+/* Welcome shell: the black backdrop, its outlet and the stagger overlay.
+ *
+ * ---------------------------------------------------------------------------
+ * LA CHARTE DU SERVEUR, ET POURQUOI ELLE EST ICI
+ *
+ * Le joueur qui arrive traverse l'écran de chargement (ltl_loadingscreen), la
+ * sélection puis la création de personnage (ltl_core/ltl_ui), et enfin ce
+ * parcours-ci. Les trois premiers sont violet sur presque-noir. Ce parcours
+ * était blanc, texte noir, accent rouge : la seule rupture de la chaîne, et
+ * elle tombait sur le seul écran où le joueur choisit la couleur qu'il gardera
+ * ensuite en jeu.
+ *
+ * Les valeurs ci-dessous sont celles de ltl_loadingscreen/config.lua et de
+ * ltl_ui/web/css/tokens.css, à l'identique. Elles sont recopiées et non
+ * partagées parce que ces deux ressources sont lues AVANT que cette page
+ * existe — chacune porte donc sa propre copie de la charte, et les garder
+ * d'accord est tout l'intérêt de les écrire au même endroit dans chaque
+ * ressource.
+ *
+ * SUR :root ET NON SUR .main-welcome, et ce n'est pas un relâchement de portée.
+ * Deux pièces du parcours ne sont pas des descendantes de .main-welcome : la
+ * grille de tuiles (#stagger-root) et l'écran d'aperçu, que le routeur pose à
+ * la racine. Des jetons posés sur .main-welcome ne les atteindraient pas, et il
+ * faudrait réécrire les mêmes couleurs en dur à deux endroits de plus. Rien ne
+ * fuit pour autant : un jeton ne peint rien tant qu'aucune règle ne le reprend,
+ * et seules les règles de ce parcours reprennent --wc-*.
+ *
+ * LES CANAUX SÉPARÉS NE SONT PAS UN CHOIX DE STYLE. Le cef embarqué par le jeu
+ * a plusieurs versions de retard sur Chrome et ne connaît pas color-mix() : une
+ * déclaration qui l'utilise n'est pas approximée, elle est INVALIDE, donc
+ * ignorée sans erreur en console. Une teinte translucide ne peut donc s'écrire
+ * que rgba(var(--wc-primary-rgb), .3), à partir de canaux tenus à part.
+ *
+ * AUCUN backdrop-filter dans tout le parcours. Inutile — ces écrans sont
+ * opaques — et piégeux : une NUI est composée AU-DESSUS du jeu par le moteur,
+ * donc côté page, « derrière » un panneau il n'y a pas la scène GTA mais le
+ * fond transparent du document. Le flou floute du vide et peint un rectangle
+ * noir à la place du panneau.
+ * --------------------------------------------------------------------------- */
+
+:root {
+    --wc-primary: #8B5CF6;
+    --wc-secondary: #6D28D9;
+    --wc-accent: #C4B5FD;
+    --wc-bg: #050308;
+    --wc-text: #FFFFFF;
+    --wc-muted: #8E85A3;
+    --wc-danger: #F0526B;
+
+    --wc-primary-rgb: 139, 92, 246;
+    --wc-secondary-rgb: 109, 40, 217;
+    --wc-accent-rgb: 196, 181, 253;
+    --wc-bg-rgb: 5, 3, 8;
+    --wc-text-rgb: 255, 255, 255;
+    --wc-danger-rgb: 240, 82, 107;
+
+    /* La surface est TEINTÉE, pas neutre assombrie : le violet est mélangé dans
+       le fond AVANT que l'opacité ne s'applique. Mélangé après, il se diluerait
+       dans le fond et on retomberait sur un gris sale. Valeur reprise telle
+       quelle de --mc-panel-tint-rgb (ltl_ui/web/css/multichar.css), où le
+       mélange est fait en JavaScript faute de fonction css capable de le faire
+       dans ce moteur. */
+    --wc-tint-rgb: 56, 36, 97;
+    --wc-surface-opacity: .62;
+    --wc-panel: rgba(var(--wc-tint-rgb), var(--wc-surface-opacity));
+
+    /* Le gris-mauve des intitulés de la charte est calibré contre un fond
+       presque noir ; posé SUR un panneau teinté il s'en rapproche trop et
+       l'intitulé devient illisible. D'où cette seconde version, tirée vers
+       l'accent (= --mc-panel-muted). Les deux existent, elles ne sont pas
+       interchangeables : --wc-muted sur le fond, --wc-panel-muted sur un
+       panneau. */
+    --wc-panel-muted: rgb(181, 168, 228);
+    --wc-hairline: rgba(var(--wc-accent-rgb), .26);
+
+    --wc-radius: 18px;
+    --wc-radius-inner: 10px;
+
+    /* La courbe de la maison, partagée avec l'écran de chargement et les écrans
+       de personnage. Elle décélère fort à la fin, ce qui fait qu'un élément a
+       l'air POSÉ et non lâché. Les transitions qui existaient déjà dans ce
+       parcours gardent la leur, qui est de la même famille : les réécrire
+       n'aurait rien donné de visible. */
+    --wc-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+    /* Le fond des trois écrans du parcours, écrit UNE fois.
+     *
+     * Trois dégradés dans l'ordre de peinture : halo violet en bas à gauche,
+     * halo secondaire en haut à droite, vignette qui referme les bords. C'est
+     * la construction de .background__glow + .background__vignette de l'écran
+     * de chargement, sans les trois <div> — ici il n'y a pas de vidéo à séparer
+     * du voile, donc pas besoin de couches distinctes. Un seul `background`,
+     * donc une seule couche à rastériser, que le moteur garde en cache tant que
+     * la taille de l'écran ne change pas.
+     *
+     * PAS DE GRAIN, contrairement à l'écran de chargement, et pour la raison
+     * que donne le créateur de personnage de ltl_ui : « ici le joueur juge des
+     * couleurs, et un voile texturé par-dessus fausse ce jugement ». C'est
+     * exactement cet écran-là — il contient le sélecteur de couleur du HUD. */
+    --wc-backdrop:
+        radial-gradient(46% 40% at 12% 88%, rgba(var(--wc-primary-rgb), .30), transparent 70%),
+        radial-gradient(38% 34% at 88% 6%, rgba(var(--wc-secondary-rgb), .24), transparent 72%),
+        radial-gradient(122% 94% at 50% 46%, transparent 44%, var(--wc-bg) 128%);
+}
+
 .main-welcome {
     width: 100%;
     height: 100%;
-    background-color: #1a1a1a;
+    background-color: var(--wc-bg);
+    color: var(--wc-text);
     position: absolute;
     left: 0;
     top: 0
@@ -14,7 +119,7 @@
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: #000;
+    background-color: var(--wc-bg);
     display: flex;
     justify-content: center;
     align-items: center
@@ -27,8 +132,16 @@
     animation-timing-function: 5s
 }
 
+/* La croix de l'intercalaire, blanche à l'origine : c'était la seule chose
+   blanche qui serait restée de l'ancien parcours. Le tracé porte stroke="white"
+   dans le balisage, mais un attribut de présentation perd toujours contre une
+   propriété css. */
 .main-welcome .welcome-content .icon svg {
     overflow: visible
+}
+
+.main-welcome .welcome-content .icon svg path {
+    stroke: var(--wc-primary)
 }
 
 @keyframes welcomeRotateAxis {
@@ -67,16 +180,30 @@
     transform: translate(-100%)
 }
 
+/* L'en-tête repasse AU-DESSUS du tissage de fond, et ce n'est pas cosmétique.
+   .preset-background est positionné et déclaré avant lui ; .header-row, lui, est
+   dans le flux. Un élément positionné peint par-dessus un élément qui ne l'est
+   pas, donc le motif passe sur le titre. Au noir à 5 % qu'il avait sur blanc,
+   personne ne pouvait le voir ; en accent, le titre prendrait un quadrillage
+   violet. `position: relative` sans décalage ne déplace rien : il ne fait que
+   sortir l'en-tête du lot que le motif recouvre. (.customization-content est
+   déjà en relative pour la même raison, dans welcome-customize.css.) */
 .header-row {
     display: flex;
     gap: .5vw;
-    width: 100%
+    width: 100%;
+    position: relative
 }
 
+/* Le filet vertical à gauche du titre d'étape : c'était un trait noir de 10 px
+   à 10 % d'opacité. C'est l'emplacement exact de .identity__rule, l'élément
+   signature de l'écran de chargement — un dégradé d'accent qui s'éteint, avec
+   son halo. Il ne coûte qu'un dégradé, et c'est lui qui rattache l'écran au
+   reste du serveur. */
 .header-row .line {
-    width: .5vw;
-    background-color: #000;
-    opacity: .1
+    width: 2px;
+    background: linear-gradient(180deg, var(--wc-primary), rgba(var(--wc-primary-rgb), 0));
+    box-shadow: 0 0 18px rgba(var(--wc-primary-rgb), .7)
 }
 
 .header-row .header-box {
@@ -85,15 +212,33 @@
     gap: .2vw
 }
 
+/* Le titre d'étape, dégradé blanc → accent comme .identity__name.
+   SANS l'ombre portée de .identity__name, qui n'est pas transposable : là-bas le
+   titre est posé sur une vidéo, et l'ombre lui donne son assise. Ici le fond est
+   déjà presque noir, donc l'ombre n'ajoute aucun contraste — elle étale
+   seulement une tache floue de 60 px qui masque le tissage derrière le titre, et
+   qu'on voit comme une salissure rectangulaire. */
 .header-row .header-box .header {
     font-size: 3vw;
     text-transform: uppercase;
-    font-weight: 800
+    font-weight: 800;
+    letter-spacing: -.02em;
+    color: var(--wc-text);
+    background-image: linear-gradient(180deg, #FFFFFF 26%, var(--wc-accent) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent
 }
 
+/* La phrase sous le titre. Bornée en largeur : c'est une vraie phrase de deux
+   lignes, et sans borne elle traverse les 84 vw disponibles d'un bord à l'autre,
+   ce qui la rend pénible à lire quelle que soit sa couleur. */
 .header-row .header-box .text {
     font-size: .9vw;
-    font-weight: 500
+    font-weight: 500;
+    max-width: min(52ch, 44vw);
+    line-height: 1.6;
+    color: var(--wc-muted)
 }
 
 .preset-background {
@@ -108,6 +253,23 @@
 .preset-background svg {
     width: 100%;
     height: 100%
+}
+
+/* Le tissage diagonal du fond des étapes.
+   Il est peint par un dégradé radial dont les arrêts n'ont pas de stop-color, ce
+   qui les laissait en NOIR par défaut : sur fond sombre le motif disparaissait
+   complètement. On recolore les ARRÊTS plutôt que le trait, ce qui garde le
+   fondu du centre vers les bords que le dégradé produit. L'opacité monte de .05
+   à .10 : un trait d'accent sur presque-noir a besoin d'un peu plus de matière
+   qu'un trait noir sur blanc pour se voir autant. Pas davantage — essayé à .16,
+   le quadrillage prend le pas sur ce qu'il y a devant, et ces écrans sont ceux
+   où le joueur juge des couleurs. */
+.preset-background stop {
+    stop-color: var(--wc-accent)
+}
+
+.preset-background path {
+    stroke-opacity: .10
 }
 
 .stagger-content {
@@ -131,8 +293,11 @@
     overflow: hidden
 }
 
+/* Les tuiles masquent chaque changement de caméra du parcours. Un noir pur au
+   milieu d'écrans presque-noirs mais TEINTÉS se voit comme un trou ; au fond de
+   la charte, l'enchaînement se lit comme un voile et non comme une coupure. */
 .stagger-content .stagger-style {
     width: 100%;
     height: 100%;
-    background-color: #000
+    background-color: var(--wc-bg)
 }

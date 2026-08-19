@@ -29,10 +29,22 @@
     flex-direction: column
 }
 
+/* Le cartouche est posé SUR le jeu : pas de fond, pas de panneau, et c'est bien
+   ainsi. Seule sa typographie est alignée sur la charte du serveur — le filet
+   passe de 6 px à 2 px, et les ombres portées le décollent d'une scène dont on
+   ne sait rien.
+
+   Le filet garde --primary-color, et ce n'est pas un oubli : sur cet écran, le
+   joueur regarde SA couleur appliquée en situation, juste après l'avoir choisie.
+
+   Ces règles servent aussi le mode positionnement (/position), qui partage ce
+   composant. C'est voulu : c'est le même objet, il doit se lire pareil. */
 .center-content .header {
     font-size: 2.865vw;
     text-transform: uppercase;
     font-weight: 800;
+    letter-spacing: -.015em;
+    text-shadow: 0 8px 34px rgba(0, 0, 0, .75);
     height: 3.2vw
 }
 
@@ -52,8 +64,11 @@
 .center-content .row .text {
     font-weight: 500;
     box-sizing: border-box;
-    padding: .2vw .2vw .2vw .5vw;
-    border-left: .3vw solid var(--primary-color)
+    padding: .18vw .2vw .18vw .7vw;
+    letter-spacing: .04em;
+    color: rgba(255, 255, 255, .88);
+    text-shadow: 0 4px 18px rgba(0, 0, 0, .8);
+    border-left: 2px solid var(--primary-color)
 }
 
 .live-settings-content {

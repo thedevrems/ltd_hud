@@ -1,10 +1,14 @@
+/* Le cadre des six étapes de personnalisation.
+   Les jetons --wc-* et le fond --wc-backdrop viennent de welcome.css. */
+
 .customize-content {
     width: 100%;
     height: 100%;
     position: absolute;
     left: 0;
     top: 0;
-    background-color: #fff;
+    background-color: var(--wc-bg);
+    background-image: var(--wc-backdrop);
     display: flex;
     flex-direction: column;
     gap: .5vw;
@@ -17,6 +21,12 @@
     display: contents
 }
 
+/* L'enfant est TRANSPARENT, et pas repeint.
+   Il se superpose à la coquille, qui porte déjà le fond : lui redonner les mêmes
+   dégradés les additionnerait et le halo doublerait d'intensité. Il glisse en
+   plus à chaque changement d'étape (.customization-transition-*) — laisser le
+   halo à la coquille fait glisser le seul tissage, ce qui est le mouvement
+   voulu. */
 .customize-content.content {
     display: flex;
     flex-direction: column;
@@ -27,6 +37,8 @@
     left: 0;
     top: 0;
     box-sizing: border-box;
+    background-color: transparent;
+    background-image: none;
     padding: 8vw
 }
 
@@ -57,6 +69,7 @@
     pointer-events: none
 }
 
+/* Les deux colonnes latérales de navigation, sur toute la hauteur. */
 .navbar-content .nav-arrow {
     pointer-events: all;
     width: 3vw;
@@ -65,8 +78,8 @@
     align-items: center;
     background-color: transparent;
     padding: 0vw;
-    color: #1a1a1a;
-    opacity: .3;
+    color: var(--wc-panel-muted);
+    opacity: .55;
     transition: all .48s cubic-bezier(.075, .82, .165, 1);
     overflow: hidden;
     position: relative
@@ -89,16 +102,23 @@
     font-weight: 700
 }
 
+/* L'ancienne version ne faisait que couper les clics : rien ne disait au joueur
+   qu'il est à la première étape et que cette flèche ne mène nulle part. */
 .navbar-content .nav-arrow.disabled {
-    pointer-events: none
+    pointer-events: none;
+    opacity: .14
 }
 
 .navbar-content .nav-arrow:hover {
     padding: 1vw;
-    background-color: #f0f0f0;
+    background-color: rgba(var(--wc-primary-rgb), .12);
+    color: var(--wc-text);
     opacity: 1
 }
 
+/* Les pastilles d'étape, réunies dans une pilule — c'est .cr-shots du créateur de
+   personnage de ltl_ui, qui est le même objet : un sélecteur posé sur la scène.
+   Les pastilles nues flottaient sans rien pour les tenir. */
 .navbar-content .navbar {
     position: absolute;
     right: 8vw;
@@ -107,6 +127,11 @@
     justify-content: flex-start;
     align-items: center;
     gap: .3vw;
+    padding: .3vw;
+    background-color: var(--wc-panel);
+    border: 1px solid var(--wc-hairline);
+    border-radius: 999px;
+    box-shadow: 0 20px 50px -30px #000;
     pointer-events: all
 }
 
@@ -114,38 +139,51 @@
     pointer-events: none
 }
 
+/* « Aperçu ».
+ *
+ * L'ANIMATION EN BOUCLE A ÉTÉ RETIRÉE, et ce n'est pas une préférence. Ce bouton
+ * pulsait en permanence pendant toute la personnalisation. Une animation en
+ * cours oblige le compositeur de la page à produire une image à chaque vsync,
+ * que le jeu doit ensuite relire et recharger en TEXTURE PLEIN ÉCRAN — en 1440p,
+ * une quinzaine de mégaoctets par frame remontés au gpu, pour faire respirer une
+ * opacité. C'est le diagnostic écrit au mot près dans ltl_ui/web/css/
+ * multichar.css, après que le même symptôme y a été trouvé.
+ *
+ * Ce qui la remplace attire l'œil sans rien redessiner : l'accent, et un filet
+ * qui s'étend au survol — le motif de .menu__item de l'écran de chargement. */
 .navbar-content .preview-button {
     position: absolute;
     left: 8vw;
     bottom: 5vw;
     font-size: 1.2vw;
     font-weight: 700;
-    opacity: .3;
-    transition: opacity .125s ease-in-out;
+    opacity: 1;
+    color: var(--wc-accent);
+    letter-spacing: .18em;
+    transition: color .125s ease-in-out;
     text-transform: uppercase;
     z-index: 90;
-    pointer-events: all;
-    animation: 1.5s infinite customizePulseOpacity;
-    -webkit-animation-play-state: running
+    pointer-events: all
 }
 
 .navbar-content .preview-button:hover {
-    -webkit-animation-play-state: paused;
-    opacity: 1
+    color: var(--wc-text)
 }
 
-@keyframes customizePulseOpacity {
-    0% {
-        opacity: .3
-    }
+.navbar-content .preview-button::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -.5vw;
+    width: 1.6vw;
+    height: 2px;
+    background: linear-gradient(90deg, var(--wc-primary), rgba(var(--wc-primary-rgb), 0));
+    box-shadow: 0 0 14px rgba(var(--wc-primary-rgb), .7);
+    transition: width 320ms var(--wc-ease)
+}
 
-    50% {
-        opacity: .6
-    }
-
-    to {
-        opacity: .3
-    }
+.navbar-content .preview-button:hover::after {
+    width: 100%
 }
 
 .navbar-content .navbar .nav-element .converted-content {
@@ -155,14 +193,21 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #1a1a1a;
+    color: var(--wc-panel-muted);
     font-size: .7vw;
-    background-color: var(--customize-navbar-background);
+    background-color: transparent;
+    border-radius: 50%;
     transition: all .125s ease-in-out
 }
 
+/* L'état actif garde --primary-color : c'est la couleur que le joueur vient de
+   choisir, et ces six pastilles sont l'endroit où il la voit appliquée pendant
+   qu'il règle le reste. Le pictogramme passe au presque-noir du fond plutôt
+   qu'au blanc : c'est ce que fait .btn-primary de ltl_ui sur son aplat d'accent,
+   et c'est le seul des deux qui reste lisible sur une couleur claire. */
 .navbar-content .navbar .nav-element:hover .converted-content,
 .navbar-content .navbar .nav-element.active .converted-content {
+    color: var(--wc-bg);
     background-color: var(--primary-color)
 }
 
@@ -188,6 +233,12 @@
     gap: 1vw
 }
 
+/* L'ombre portée de l'aperçu central.
+   Elle est ÉCRITE EN LIGNE par welcome-previews.js (previewBox), donc la valeur
+   qui compte est celle des constantes SOFT et STRONG de ce fichier ; celle-ci ne
+   sert qu'aux aperçus qui n'en reçoivent pas. Les deux ont été refaites
+   ensemble : `drop-shadow(0 0 5px #1a1a1a)` détachait l'aperçu d'un fond BLANC,
+   et sur presque-noir une ombre noire de 5 px ne détache plus rien. */
 .customization-content .pre-ui {
     position: absolute;
     left: 0;
@@ -196,5 +247,5 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    filter: drop-shadow(0 0 5px #1a1a1a)
+    filter: drop-shadow(0 18px 34px rgba(0, 0, 0, .75))
 }

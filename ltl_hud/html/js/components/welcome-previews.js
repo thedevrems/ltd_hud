@@ -7,8 +7,15 @@ import { VARIANTS as NOTIFY } from "./notify-variants.js";
 import { VARIANTS as HELPNOTIFY, updateVariant as updateHelpNotify } from "./helpnotify-variants.js";
 import { VARIANTS as PROGRESSBAR } from "./progressbar-variants.js";
 
-const SOFT = "drop-shadow(rgba(12, 12, 12, 0.4) 0px 0px 5px)";
-const STRONG = "drop-shadow(0 0 5px rgba(12,12,12,.6))";
+// Les deux ombres portées de l'aperçu central, écrites EN LIGNE par previewBox.
+//
+// Elles ont été refaites avec la charte : `drop-shadow(0 0 5px #1a1a1a)`
+// détachait l'aperçu d'un fond BLANC, et sur le presque-noir de la charte une
+// ombre noire de cinq pixels ne détache plus rien. La valeur de repli, pour les
+// aperçus qui n'en reçoivent pas, est dans .customization-content .pre-ui
+// (welcome-customize.css) : les trois doivent rester d'accord.
+const SOFT = "drop-shadow(0 18px 34px rgba(0, 0, 0, .75))";
+const STRONG = "drop-shadow(0 22px 44px rgba(0, 0, 0, .85))";
 const HUD_ICON = "fas fa-heart";
 const HUD_ICON_SIZE = "3vw";
 const HUD_VALUE = 75;

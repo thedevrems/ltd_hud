@@ -236,11 +236,6 @@ function Storage.HandleConfig()
         end
         debugPrint("[^3STORAGE^7] [^1" .. disabledLabel .. "^7] Forced all components to non 3d directive.")
     end
-
-    if Config.UI.UseMusic then
-        debugPrint("[^3STORAGE^7] [^1Config.UI.UseMusic^7] Disabling music component due to the YouTube API contains memory leak.")
-        Config.UI.UseMusic = false
-    end
 end
 
 function Storage.SendFullCFG()

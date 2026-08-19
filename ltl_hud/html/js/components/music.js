@@ -1,4 +1,5 @@
 import { el, setStyle } from "../core/dom.js";
+import { config } from "../core/config.js";
 import {
     music, setPlayer, setAsReady, play, fade, stateNameOf, setCurrentState, setTrackData, trackProgress
 } from "../core/musicstore.js";
@@ -72,8 +73,19 @@ function mount(root) {
     window.onYouTubeIframeAPIReady = () => initPlayer(host);
 }
 
+// The API is not bundled with the page: it is fetched from YouTube once the
+// server config confirms the component is on, and lands in the
+// onYouTubeIframeAPIReady hook that mount() armed.
+function loadIframeApi() {
+    if (!config.state.set || !config.state.UI.UseMusic) return;
+    if (window.YT || document.getElementById("yt-iframe-api")) return;
+    document.head.appendChild(el("script", null, { id: "yt-iframe-api", src: "https://www.youtube.com/iframe_api" }));
+}
+
 export function register(bus) {
     mount(document.getElementById("music-root"));
     bus.on("HANDLE_MUSIC", data => fade(volumeTargets()[data.state], FADE_DURATION));
     bus.on("OVERRIDE_MUSIC_STATE", () => setAsReady());
+    config.subscribe(loadIframeApi);
+    loadIframeApi();
 }

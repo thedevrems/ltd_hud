@@ -72,6 +72,25 @@ function MainMenu.AwaitMulticharacter(resource)
     while not MainMenu.PlayerSpawned do Wait(250) end
     Debug.Print("WELCOME", "^2Joueur apparu^7, construction de l'interface.")
 
+    NUI.SendMessage("SET_PLAYER_STEAM_NAME", { name = GetPlayerName(PlayerId()) })
+
+    -- La scène d'intro garde sa place derrière une sélection de personnage, mais
+    -- en surimpression seulement : ni téléportation ni caméra à elle — le
+    -- personnage vient d'apparaître et la caméra est déjà la sienne. ENTRÉE
+    -- déclenche mainMenu.finished, et MainMenu.Destroy enchaîne comme sur le
+    -- chemin solo : fondu, welcome (musique puis préréglages), puis libération.
+    if MainMenu.ShouldShowIntro() then
+        Debug.Print("WELCOME", "Scène d'intro en ^2surimpression^7 après l'apparition du personnage.")
+        -- Figé et immunisé le temps du parcours, comme sur le chemin solo :
+        -- MainMenu.Destroy libère les deux une fois l'interface créée.
+        FreezeEntityPosition(PlayerPedId(), true)
+        SetPlayerInvincible(PlayerId(), true)
+        DisplayRadar(false, true, true)
+        NUI.SetRoutePath("/mainmenu")
+        NUI.SetFocus(true, true)
+        return
+    end
+
     LocalPlayer.state:set("UIV2_Preloaded", true)
 
     if Config.UI.UseConfiguration and not Storage.Data.UIConfigured then
@@ -260,9 +279,14 @@ function MainMenu.Destroy()
     SetNuiFocus(false, false)
     while not IsScreenFadedOut() do Wait(100) end
 
-    DestroyCam(MainMenu.Data.cam)
-    SetCamActive(MainMenu.Data.cam, false)
-    RenderScriptCams(false, false)
+    -- Sur le chemin multicharacter l'intro est une pure surimpression : aucune
+    -- caméra n'a été créée et celle du jeu ne doit pas être rendue à un
+    -- RenderScriptCams(false) qui ne lui appartient pas.
+    if MainMenu.Data.cam ~= -1 then
+        DestroyCam(MainMenu.Data.cam)
+        SetCamActive(MainMenu.Data.cam, false)
+        RenderScriptCams(false, false)
+    end
     LocalPlayer.state:set("UIV2_Preloaded", true)
     Wait(200)
     SetEntityVisible(PlayerPedId(), true)

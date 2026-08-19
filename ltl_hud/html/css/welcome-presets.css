@@ -1,10 +1,14 @@
+/* Deuxième écran du parcours : préréglages du serveur, ou personnalisation.
+   Les jetons --wc-* et le fond --wc-backdrop viennent de welcome.css. */
+
 .presets-content {
     width: 100%;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #fff;
+    background-color: var(--wc-bg);
+    background-image: var(--wc-backdrop);
     box-sizing: border-box;
     padding: 10vw;
     position: absolute;
@@ -18,23 +22,39 @@
     justify-content: space-between
 }
 
+/* Les deux cartes.
+   Elles étaient invisibles au repos (fond noir à 1 %) et n'apparaissaient qu'au
+   survol. Sur blanc c'était un parti pris lisible ; sur presque-noir ça donnait
+   un écran où rien ne dit qu'il y a deux choix à faire tant que la souris n'est
+   pas passée dessus. Elles prennent donc la surface de la charte, et le survol
+   continue de les faire monter. */
 .presets-content .presets-list .preset {
     width: 32vw;
     height: 35vw;
-    background-color: #00000003;
+    background-color: var(--wc-panel);
+    border: 1px solid var(--wc-hairline);
+    border-radius: var(--wc-radius);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     box-sizing: border-box;
     padding: 4vw 3vw;
     position: relative;
-    box-shadow: 0 0 #00000050;
+    box-shadow: 0 40px 90px -40px #000;
     transition: all .48s cubic-bezier(.075, .82, .165, 1)
 }
 
+/* Un aplat d'accent POSÉ SUR le panneau, pas mélangé avec lui : `background`
+   accepte une image par-dessus une couleur, et un dégradé d'une seule teinte est
+   un aplat. C'est ce qui remplace un mélange de deux vraies couleurs sans avoir
+   à connaître le panneau, qui est translucide. */
 .presets-content .presets-list .preset:hover {
-    box-shadow: 0 0 1.5vw #00000050;
-    background-color: #fff
+    background-image: linear-gradient(rgba(var(--wc-primary-rgb), .14), rgba(var(--wc-primary-rgb), .14));
+    border-color: rgba(var(--wc-primary-rgb), .62);
+    box-shadow:
+        0 0 0 4px rgba(var(--wc-primary-rgb), .10),
+        0 34px 80px -36px #000;
+    transform: translateY(-4px)
 }
 
 .presets-content .presets-list .preset .recommended {
@@ -60,10 +80,18 @@
     height: .9vw
 }
 
+/* La croix du bandeau porte stroke="black" dans welcome-presets.js, mais un
+   attribut de présentation perd toujours contre une propriété css. */
+.presets-content .presets-list .preset .recommended .icon svg path {
+    stroke: var(--wc-primary)
+}
+
 .presets-content .presets-list .preset .recommended .text {
     font-size: .8vw;
     text-transform: uppercase;
-    font-weight: 800
+    font-weight: 800;
+    letter-spacing: .22em;
+    color: var(--wc-accent)
 }
 
 .presets-content .presets-list .preset .blank {
@@ -82,6 +110,8 @@
     font-size: 2vw;
     text-transform: uppercase;
     font-weight: 700;
+    letter-spacing: .04em;
+    color: var(--wc-text);
     pointer-events: none
 }
 
@@ -93,11 +123,20 @@
     pointer-events: none
 }
 
+/* Le tressage décoratif de la carte : ses tracés portent stroke="black" et une
+   opacité de 30 % dans le js, calibrées pour un fond blanc. */
 .presets-content .presets-list .preset .text-content .icon {
     width: 3vw;
-    opacity: .3
+    opacity: 1
+}
+
+.presets-content .presets-list .preset .text-content .icon svg path {
+    stroke: var(--wc-accent);
+    stroke-opacity: .34
 }
 
 .presets-content .presets-list .preset .text-content .text {
-    font-size: .75vw
+    font-size: .75vw;
+    line-height: 1.6;
+    color: var(--wc-panel-muted)
 }

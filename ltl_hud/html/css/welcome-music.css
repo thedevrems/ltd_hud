@@ -1,3 +1,6 @@
+/* Premier écran du parcours : le joueur choisit la musique du menu principal.
+   Les jetons --wc-* et le fond --wc-backdrop viennent de welcome.css. */
+
 .music-content {
     width: 100%;
     height: 100%;
@@ -5,7 +8,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #fff;
+    background-color: var(--wc-bg);
+    background-image: var(--wc-backdrop);
     position: absolute;
     left: 0;
     top: 0%
@@ -24,6 +28,7 @@
     z-index: 3
 }
 
+/* « C'est parti », le mot de sortie de l'écran. */
 .music-content .done-content {
     position: absolute;
     left: 0;
@@ -37,12 +42,33 @@
     opacity: 0;
     pointer-events: none;
     z-index: 1;
-    font-weight: 800
+    font-weight: 800;
+    color: var(--wc-text);
+    text-shadow: 0 0 60px rgba(var(--wc-primary-rgb), .5)
 }
 
+/* « Bonjour ».
+ *
+ * Serif italique, comme .mc-welcome-hello de l'écran de sélection de personnage
+ * de ltl_ui : c'est le même mot, au même endroit du parcours, et c'est la pièce
+ * la plus reconnaissable de la charte. La serif est une face SYSTÈME, aucune
+ * police n'est téléchargée pour ça.
+ *
+ * LA TAILLE N'EST PAS REPRISE DE LA CHARTE, et c'est une leçon payée :
+ * .mc-welcome-hello fait clamp(72px, 11vw, 168px), et à cette échelle le mot
+ * passe par-dessus la phrase et le champ. Les trois blocs de cet écran sont
+ * posés à des pourcentages fixes — 50 %, 57,5 %, 70 % — écrits pour un titre de
+ * 3vw, et playIntro (welcome-music.js) les anime vers ces mêmes valeurs. Seul le
+ * STYLE est la signature ; l'échelle appartient à cette disposition-ci. */
 .music-content .header {
     font-size: 3vw;
-    font-weight: 800;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-style: italic;
+    font-weight: 400;
+    line-height: .92;
+    letter-spacing: -.02em;
+    color: var(--wc-text);
+    text-shadow: 0 0 60px rgba(var(--wc-primary-rgb), .55);
     opacity: 0;
     position: absolute;
     left: 50%;
@@ -50,15 +76,19 @@
     transform: translate(-50%, -50%)
 }
 
+/* « Utiliser la musique du serveur » : le seul bouton de l'écran. */
 .music-content .default-music-set {
-    background-color: #0000000d;
-    color: #000;
+    background-color: rgba(var(--wc-text-rgb), .07);
+    border: 1px solid var(--wc-hairline);
+    border-radius: 999px;
+    color: var(--wc-text);
     font-weight: 700;
     position: absolute;
     top: 70%;
     opacity: 0;
     left: 50%;
     font-size: .75vw;
+    letter-spacing: .16em;
     text-transform: uppercase;
     box-sizing: border-box;
     padding: .5vw .75vw;
@@ -67,13 +97,16 @@
 }
 
 .music-content .default-music-set:hover {
-    background-color: #0000001a;
+    background-color: rgba(var(--wc-primary-rgb), .18);
+    border-color: rgba(var(--wc-primary-rgb), .62);
     padding: .5vw 1.25vw
 }
 
 .music-content .text {
     font-size: .8vw;
-    font-weight: 500
+    font-weight: 500;
+    letter-spacing: .04em;
+    color: var(--wc-muted)
 }
 
 .music-content .column {
@@ -87,6 +120,8 @@
     transform: translate(-50%, -50%)
 }
 
+/* Le champ de collage. Le filet du bas passe à l'accent, et devient franchement
+   primaire à la saisie : c'est le seul retour visuel que le champ donne. */
 .music-content input[type=text] {
     background-color: transparent;
     outline: 0;
@@ -95,7 +130,8 @@
     font-size: .7vw;
     font-weight: 500;
     text-align: center;
-    border-bottom: .2vw solid black;
+    color: var(--wc-text);
+    border-bottom: 2px solid rgba(var(--wc-accent-rgb), .42);
     box-sizing: border-box;
     padding: .35vw;
     font-family: Montserrat, sans-serif;
@@ -103,14 +139,22 @@
 }
 
 .music-content input[type=text]:focus {
-    width: 12vw
+    width: 12vw;
+    border-bottom-color: var(--wc-primary)
 }
 
+/* Lien invalide. L'ancienne version repeignait tout le champ en rouge vif, ce
+   qui sur fond sombre fait un bloc qui saute aux yeux plus fort que n'importe
+   quoi d'autre à l'écran, pour une faute de frappe. On reprend le registre
+   d'erreur de la charte (.mc-error de ltl_ui) : une teinte posée sur la surface,
+   et le filet en couleur franche. */
 .music-content input[type=text].error {
-    background-color: #eb5b5b
+    background-color: rgba(var(--wc-danger-rgb), .18);
+    border-bottom-color: var(--wc-danger);
+    color: var(--wc-text)
 }
 
 .music-content input[type=text]::placeholder {
     opacity: 1;
-    color: #000
+    color: var(--wc-muted)
 }

@@ -1,23 +1,43 @@
-/* Widgets of the welcome flow: rounded light cards, distinct from the game menu. */
+/* Widgets of the welcome flow, aux couleurs de la charte du serveur.
+   Les jetons --wc-* viennent de welcome.css.
+
+   Une règle gouverne les couleurs de ce fichier : l'HABILLAGE prend le violet de
+   la charte, les TÉMOINS gardent --primary-color. La coche, le remplissage de la
+   glissière et la pastille d'étape active sont la couleur que le joueur est en
+   train de choisir — les repeindre en violet viderait l'étape « Thème » de son
+   sens. */
+
 .select-box {
     position: relative;
     width: 15vw;
     box-sizing: border-box;
-    background-color: var(--customize-select-checkbox-background);
-    border-radius: .5vw
+    background-color: var(--wc-panel);
+    border: 1px solid var(--wc-hairline);
+    border-radius: var(--wc-radius-inner);
+    box-shadow: 0 30px 70px -40px #000
+}
+
+.select-box.active {
+    border-color: rgba(var(--wc-primary-rgb), .55)
 }
 
 .select-box.active .overflow-override {
     max-height: 12vw
 }
 
+/* L'intitulé « Type » chevauchait le bord haut de la boîte. Contre un fond blanc
+   et une boîte grise il passait ; contre un panneau translucide bordé d'un filet
+   clair, il coupe le filet en deux. Il remonte au-dessus, comme .mc-field-label
+   de ltl_ui, qui est le motif de la charte pour un champ nommé. */
 .select-box .header {
     position: absolute;
-    left: .6vw;
-    top: -.3vw;
+    left: .2vw;
+    top: -1.15vw;
     font-size: .6vw;
     text-transform: uppercase;
-    font-weight: 700
+    font-weight: 700;
+    letter-spacing: .22em;
+    color: var(--wc-accent)
 }
 
 .select-box .overflow-override {
@@ -37,7 +57,8 @@
 
 .select-box .row .hovered-off {
     font-size: .7vw;
-    opacity: .3;
+    opacity: .75;
+    color: var(--wc-accent);
     transform: rotate(0);
     transition: all .48s cubic-bezier(.075, .82, .165, 1)
 }
@@ -48,7 +69,8 @@
 
 .select-box .selected-element {
     font-size: .9vw;
-    font-weight: 600
+    font-weight: 600;
+    color: var(--wc-text)
 }
 
 .select-box .list {
@@ -95,37 +117,56 @@
 .select-box .list.active .list-element:nth-child(9) { transition-delay: .4s }
 .select-box .list.active .list-element:nth-child(10) { transition-delay: .45s }
 
+/* Les entrées passaient du gris au noir par l'OPACITÉ. Sur fond sombre, une
+   opacité basse tire vers le fond du panneau et le texte se dissout au lieu de
+   s'estomper : on distingue donc par la couleur, qui reste nette.
+   L'opacité posée ici est sur .text ; celle du dévoilement en cascade est sur
+   .list-element, qui est son parent — les deux ne se marchent pas dessus. */
 .select-box .list .list-element .text {
-    opacity: .3;
-    transition: opacity .125s ease-in-out
+    opacity: 1;
+    color: var(--wc-panel-muted);
+    transition: color .125s ease-in-out
 }
 
-.select-box .list .list-element .text.active,
 .select-box .list .list-element:hover .text {
-    opacity: 1
+    color: var(--wc-text)
+}
+
+.select-box .list .list-element .text.active {
+    color: var(--wc-accent);
+    font-weight: 700
 }
 
 .checkbox-content {
     width: 15vw;
     box-sizing: border-box;
     padding: 1vw;
-    background-color: var(--customize-select-checkbox-background);
+    background-color: var(--wc-panel);
+    border: 1px solid var(--wc-hairline);
+    border-radius: var(--wc-radius-inner);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-radius: .5vw;
     opacity: 1;
     transition: all .125s ease-in-out
 }
 
+.checkbox-content:hover {
+    border-color: rgba(var(--wc-accent-rgb), .5)
+}
+
+/* Une option indisponible était ramenée à 10 % d'opacité. Sur blanc elle restait
+   déchiffrable ; sur presque-noir elle disparaît, et le joueur ne voit plus
+   qu'un trou dans la colonne. La charte estompe à .38–.42 (.mc-btn:disabled). */
 .checkbox-content.disabled {
     pointer-events: none;
-    opacity: .1
+    opacity: .3
 }
 
 .checkbox-content .label {
     font-size: .7vw;
-    font-weight: 600
+    font-weight: 600;
+    color: var(--wc-text)
 }
 
 .checkbox-content .pre-check {
@@ -134,10 +175,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--customize-checkbox-pre-background);
-    border-radius: .3vw
+    background-color: rgba(var(--wc-bg-rgb), .6);
+    border: 1px solid var(--wc-hairline);
+    border-radius: 6px
 }
 
+/* Témoin : --primary-color est le choix du joueur. */
 .checkbox-content .pre-check .check {
     width: 100%;
     height: 100%;
@@ -162,13 +205,16 @@
 }
 
 .customize-content .range.disabled {
-    opacity: .1;
+    opacity: .3;
     pointer-events: none
 }
 
 .customize-content .range .text {
     font-size: .7vw;
     font-weight: 600;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--wc-panel-muted);
     box-sizing: border-box;
     padding: .5vw;
     border-radius: .5vw
@@ -177,8 +223,9 @@
 .customize-content .range .range-progress-parent {
     width: 100%;
     height: 1vw;
-    border-radius: .5vw;
-    background-color: var(--customize-select-checkbox-background);
+    border-radius: 999px;
+    background-color: rgba(var(--wc-bg-rgb), .55);
+    border: 1px solid var(--wc-hairline);
     box-sizing: border-box;
     padding: .25vw;
     display: flex;
@@ -186,17 +233,20 @@
     gap: .15vw
 }
 
+/* Témoin : --primary-color est le choix du joueur. */
 .customize-content .range .range-progress-parent .range-progress-value {
     width: 0%;
     height: 100%;
-    border-radius: .35vw;
+    border-radius: 999px;
     background-color: var(--primary-color)
 }
 
 .customize-content .range .range-progress-parent .progress-mouse-handle {
     width: .2vw;
     height: 1.2vw;
-    background-color: var(--customize-checkbox-pre-background);
+    background-color: var(--wc-text);
+    border-radius: 999px;
+    box-shadow: 0 0 0 3px rgba(var(--wc-primary-rgb), .22);
     cursor: grab
 }
 
@@ -211,20 +261,40 @@
     height: 10vw
 }
 
+/* L'anneau est en box-shadow et non en border : base.css ne pose pas de
+   box-sizing global, donc une bordure ferait grandir le carré de deux pixels au
+   lieu de se dessiner dedans. */
 .color-picker-content input[type=color] {
     width: 100%;
     height: 100%;
     border: 0;
     padding: 0;
-    border-radius: 0;
+    border-radius: var(--wc-radius-inner);
+    cursor: pointer;
+    box-shadow:
+        0 0 0 1px var(--wc-hairline),
+        0 34px 70px -34px #000;
     transition: all .48s cubic-bezier(.075, .82, .165, 1)
+}
+
+.color-picker-content input[type=color]:hover {
+    box-shadow:
+        0 0 0 1px rgba(var(--wc-primary-rgb), .62),
+        0 38px 80px -32px #000
 }
 
 .color-picker-content input[type=color]::-webkit-color-swatch-wrapper {
     padding: 0;
-    border-radius: 0
+    border-radius: var(--wc-radius-inner)
 }
 
 .color-picker-content input[type=color]::-webkit-color-swatch {
-    border: none
+    border: none;
+    border-radius: var(--wc-radius-inner)
+}
+
+/* base.css de ltl_ui coupe toute animation sous cette préférence. On fait pareil
+   pour ce que ce parcours a ajouté. */
+@media (prefers-reduced-motion: reduce) {
+    .navbar-content .preview-button::after { transition: none }
 }
