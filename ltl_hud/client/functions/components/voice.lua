@@ -3,11 +3,16 @@
 -- shows the new range for Config.Voice.FlashDuration. Rebinding that one key in
 -- the FiveM settings is all there is to rebind.
 --
--- Two sources can raise the indicator, the flash above and Voice.Hold, and they
--- share one visibility state so neither can hide what the other is showing.
+-- Three sources can raise the indicator -- the flash above, Voice.Hold, and an
+-- open mic when Config.Voice.RevealWhileTalking allows it -- and they share one
+-- visibility state so neither can hide what another is showing. That state lives
+-- HERE and nowhere else: the page used to reveal the block on its own whenever
+-- the mic opened, which put a second hand on a switch this file believed it was
+-- the only one holding.
 
 Voice = {}
 Voice.Held = false
+Voice.Talking = false
 Voice.Shown = false
 Voice.FlashUntil = 0
 Voice.FlashRunning = false
@@ -64,17 +69,32 @@ local function applyPerspective(state)
     Perspective.ShowHiddenContent(state)
 end
 
+-- Which screen the 2D band was last asked to show, remembered so the hide can
+-- name it: Voice.Init refuses to hide a band that has since been handed to
+-- someone else, and that check only works if it is given the screen this file
+-- actually raised rather than a hardcoded guess.
+local lastScreen = "proximity"
+
 function Voice.Apply()
     applyPerspective(Voice.Held)
 
-    local shouldShow = Voice.Held or GetGameTimer() < Voice.FlashUntil
+    local talkingReveal = Voice.Talking and Config.Voice.RevealWhileTalking
+    local shouldShow = Voice.Held or talkingReveal or GetGameTimer() < Voice.FlashUntil
+
+    -- Chosen before the guard below: a mic opening during a flash changes the
+    -- screen without changing the visibility, and returning early would leave
+    -- the band showing the wrong one.
+    if shouldShow and not Config.UI.Use3DVoiceIndicator then
+        -- The dancing bars belong to the mic, the gauge to the range. A hold
+        -- asked for the range, so it wins over an open mic.
+        lastScreen = (talkingReveal and not Voice.Held) and "voice" or "proximity"
+        TopContent.SetScreen(lastScreen)
+    end
+
     if shouldShow == Voice.Shown then return end
     Voice.Shown = shouldShow
 
-    if shouldShow and not Config.UI.Use3DVoiceIndicator then
-        TopContent.SetScreen("proximity")
-    end
-    Voice.Init(shouldShow, "proximity")
+    Voice.Init(shouldShow, lastScreen)
 end
 
 -- Key down / key up. The mode is re-sent on the way in so a hold always reads
@@ -83,6 +103,35 @@ function Voice.Hold(state)
     Voice.Held = state
     if state then Voice.Refresh() end
     Voice.Apply()
+end
+
+-- The mic opened or closed. TWO DIFFERENT THINGS hang off this, and keeping them
+-- apart is the whole point: the page is always told, because that is what lights
+-- the mic pip on a block already on screen, while RAISING the block on an open
+-- mic is a taste that Config.Voice.RevealWhileTalking owns. Off, talking is
+-- something the indicator reports and never something that summons it.
+function Voice.SetTalking(state)
+    if state == Voice.Talking then return end
+    Voice.Talking = state
+
+    if Config.UI.Use3DVoiceIndicator then
+        NUI.SendMessage("SET_VOICE_INDICATOR_PLAYER_TALKING", { state = state })
+    end
+
+    Voice.Apply()
+end
+
+-- Mumble has no "started/stopped talking" event to subscribe to, so this is a
+-- poll. A third of a second is under what a listener notices and cheap enough to
+-- leave running: the native reads a local flag, and the thread only touches the
+-- page on a change.
+if Config.UI.UseListenerForMumble and not Config.UI.DisableVoiceIndicator then
+    CreateThread(function()
+        while true do
+            Voice.SetTalking(MumbleIsPlayerTalking(Threads.Players.Data.player) == 1)
+            Wait(300)
+        end
+    end)
 end
 
 function Voice.Flash(duration)

@@ -388,22 +388,6 @@ else
     end)
 end
 
-local playerTalkingLastState = false
-
-if Config.UI.UseListenerForMumble and not Config.UI.DisableVoiceIndicator then
-    CreateThread(function()
-        while true do
-            local isTalking = MumbleIsPlayerTalking(Threads.Players.Data.player) == 1
-            if isTalking ~= playerTalkingLastState then
-                if not Config.UI.Use3DVoiceIndicator then
-                    if isTalking then TopContent.SetScreen("voice") end
-                    TopContent.Init(isTalking)
-                else
-                    NUI.SendMessage("SET_VOICE_INDICATOR_PLAYER_TALKING", { state = isTalking })
-                end
-                playerTalkingLastState = isTalking
-            end
-            Wait(300)
-        end
-    end)
-end
+-- Le guetteur du micro vivait ici et n'y avait aucune raison d'être : il est
+-- passé dans components/voice.lua, à côté des deux autres sources qui lèvent
+-- l'indicateur, parce que c'est là que se décide ce qui l'affiche.

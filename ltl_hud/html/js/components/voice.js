@@ -6,11 +6,14 @@ let icon = null;
 let label = null;
 let value = null;
 
-// A flash from the game or an open mic both reveal the indicator.
+// Visibility is the Lua side's call and only its call. This used to add "or the
+// mic is open" of its own accord, which meant the block could be on screen while
+// Lua believed it had hidden it -- and left no way to turn that reveal off from
+// the config, since the page was doing it. Talking now only lights the pip.
 function render() {
     if (!host) return;
     const state = voice.state;
-    setClass(host, "visible", state.visible || state.playerTalking);
+    setClass(host, "visible", state.visible);
     setClass(icon, "active", state.playerTalking);
     setText(label, state.label);
     value.style.width = state.value + "%";

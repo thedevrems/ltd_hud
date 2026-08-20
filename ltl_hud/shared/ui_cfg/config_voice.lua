@@ -29,6 +29,16 @@ Config.Voice.DefaultProgress = 50
 -- again mid-flash extends it rather than starting a second one.
 Config.Voice.FlashDuration = 3000
 
+-- Whether an open mic RAISES the indicator. False: talking is drawn but never
+-- announced -- the mic pip lights up on a block already on screen, and nothing
+-- more. True restores the old reflex, where every push-to-talk threw the block
+-- in front of the player, which is a lot of screen for a fact they already know
+-- (they are the one holding the key).
+--
+-- Either way the range still shows itself on a range change and on a hold of
+-- '+voice_state'; this setting only speaks for the mic.
+Config.Voice.RevealWhileTalking = false
+
 -- Bring the rest of the 3D block (the hud column and its statuses) up with the
 -- indicator, but only for a hold on the '+voice_state' command. A range change
 -- never does it, so cycling ranges shows the indicator alone instead of throwing
