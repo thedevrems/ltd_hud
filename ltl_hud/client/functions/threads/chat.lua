@@ -1,18 +1,24 @@
 -- La moitié client du tchat : une touche, et aucune autorité.
 --
--- OUVRIR LA BOÎTE COÛTE UN ALLER-RETOUR, volontairement. Le client ne détient
--- aucun drapeau « je suis staff » qui puisse devenir périmé : il demande au
--- serveur à chaque appui. Le coût est d'un évènement dans chaque sens —
--- imperceptible à côté de l'attente du relâchement que ce chemin avait déjà — et
--- le gain est qu'une rétrogradation ferme la saisie tout de suite plutôt qu'à la
--- reconnexion suivante. LE SILENCE EST LE REFUS : un non-staff ne voit rien se
--- passer, ce qui est à quoi ressemble un tchat désactivé vu de l'intérieur.
+-- OUVRIR LA BOÎTE COÛTE UN ALLER-RETOUR, volontairement. La boîte s'ouvre pour
+-- tout le monde — on y tape des commandes autant que des messages — mais c'est le
+-- serveur qui dit, à chaque appui, si ce joueur peut écrire dans le canal. Le
+-- client ne garde donc aucun drapeau qui puisse devenir périmé : la réponse est
+-- recalculée depuis les grades vivants, et une rétrogradation se voit à l'appui
+-- suivant plutôt qu'à la reconnexion suivante. Le coût est d'un évènement dans
+-- chaque sens, imperceptible à côté de l'attente du relâchement que ce chemin
+-- avait déjà.
 --
 -- L'ATTENTE DU RELÂCHEMENT N'EST PAS COSMÉTIQUE : prendre le focus NUI alors que
 -- la touche du tchat est encore enfoncée tape cette touche dans la boîte.
 
 Threads.Chat = {}
 Threads.Chat.IsInputVisible = false
+
+-- Ce que le serveur a répondu à la DERNIÈRE ouverture, et rien de plus. Lu par
+-- components/chat.lua pour ne pas envoyer un message d'avance perdu ; le serveur
+-- revérifie à l'arrivée, donc mentir ici ne gagne rien.
+Threads.Chat.CanSend = false
 
 local awaitingGrant = false
 local pendingFocus = false
@@ -46,10 +52,10 @@ end, false)
 RegisterCommand("-ltl_hud_chat", function()
     keyDown = false
 
-    -- LA DEMANDE MEURT AVEC LA TOUCHE. Un serveur qui ne répond jamais — le cas
-    -- normal pour un non-staff — ne laisse aucun état derrière lui, et l'appui
-    -- suivant redemande. Garder le drapeau en attendant une réponse qui ne vient
-    -- pas verrouillerait la touche pour de bon.
+    -- LA DEMANDE MEURT AVEC LA TOUCHE. Un serveur qui ne répond pas — limitation
+    -- atteinte, ressource redémarrée, tchat coupé de son côté — ne laisse aucun
+    -- état derrière lui, et l'appui suivant redemande. Garder le drapeau en
+    -- attendant une réponse qui ne vient pas verrouillerait la touche pour de bon.
     if not Threads.Chat.IsInputVisible then
         awaitingGrant = false
     end
@@ -63,11 +69,12 @@ RegisterKeyMapping("+ltl_hud_chat", "Ouvrir la saisie du tchat", "KEYBOARD", "T"
 
 -- Le serveur a accordé la saisie. Le focus n'est PAS pris ici : la touche peut
 -- être encore enfoncée, et le prendre maintenant la taperait dans la boîte.
-RegisterNetEvent("ltl_hud:Chat:Opened", function(commands)
+RegisterNetEvent("ltl_hud:Chat:Opened", function(commands, canSend)
     if Threads.Chat.IsInputVisible then return end
 
     awaitingGrant = false
     pendingFocus = true
+    Threads.Chat.CanSend = canSend == true
 
     -- overrides/chat.lua sort tôt quand le tchat est désactivé : la fonction
     -- n'existe alors pas, et le serveur n'envoie pas cet évènement non plus.

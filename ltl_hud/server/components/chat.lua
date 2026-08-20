@@ -1,19 +1,23 @@
 -- La moitié serveur du tchat : qui peut parler, ce que dit la ligne, et sa trace
 -- dans le journal d'administration.
 --
--- LE CLIENT NE DÉTIENT AUCUN DRAPEAU « JE SUIS STAFF ». Il demande à chaque appui
--- sur la touche, et la réponse est recalculée depuis les grades vivants — une
--- rétrogradation ferme donc la saisie à l'appui suivant, pas à la reconnexion
--- suivante. L'autorisation qui a ouvert la boîte n'est PAS une preuve quand le
--- message arrive : `ltl_hud:Chat:Send` revérifie, parce qu'entre les deux il y a
--- le temps que le staff a passé à écrire.
+-- LA SAISIE N'EST GARDÉE PAR RIEN : tout le monde l'ouvre, parce que c'est aussi
+-- par là qu'on tape une commande. Le grade ne décide que de l'ÉCRITURE dans le
+-- canal, et il la décide ici.
 --
--- CHAQUE MESSAGE EST JOURNALISÉ, y compris ceux que le serveur refuse — un
--- message refusé signifie qu'un client a demandé la parole sans le grade pour
--- l'avoir, et c'est exactement la ligne que cherche une enquête. Les messages
--- coupés par la limitation sont la seule exception, et elle est volontaire : les
--- journaliser laisserait à un flooder le choix du nombre de lignes écrites en
--- base.
+-- LE CLIENT NE DÉTIENT AUCUN DRAPEAU « JE SUIS STAFF » qui lui appartienne. Le
+-- `canSend` qu'il reçoit à l'ouverture est recalculé depuis les grades vivants à
+-- chaque appui, et il ne sert qu'à lui éviter d'envoyer dans le vide : ce n'est
+-- PAS une preuve quand le message arrive. `ltl_hud:Chat:Send` revérifie, parce
+-- qu'entre les deux il y a le temps que le staff a passé à écrire.
+--
+-- CHAQUE MESSAGE EST JOURNALISÉ, y compris ceux que le serveur refuse. Un client
+-- honnête sait déjà qu'il ne peut pas écrire et n'envoie rien : une ligne refusée
+-- signifie donc soit un grade tombé pendant la frappe, soit un client qui a passé
+-- outre sa propre garde — l'un et l'autre étant exactement ce que cherche une
+-- enquête. Les messages coupés par la limitation sont la seule exception, et elle
+-- est volontaire : les journaliser laisserait à un flooder le choix du nombre de
+-- lignes écrites en base.
 
 Chat = {}
 
@@ -294,27 +298,29 @@ end
 -- Les deux évènements du canal
 -- =============================================
 
--- L'autorisation qui ouvre la saisie. Elle ne dit rien du message qui suivra :
--- c'est une réponse d'affichage, et `ltl_hud:Chat:Send` revérifie.
+-- LA BOÎTE S'OUVRE POUR TOUT LE MONDE, et c'est le seul comportement qui tienne :
+-- la saisie est aussi ce par quoi on lance une commande, or les commandes ne sont
+-- pas une affaire de staff. Refuser la boîte à un joueur, c'est lui refuser
+-- `/me`, `/do` et tout ce que les autres ressources enregistrent — un prix que
+-- le canal staff ne vaut pas.
 --
--- LE SILENCE EST LE REFUS. Un non-staff qui appuie sur la touche ne voit rien du
--- tout, ce qui est à quoi doit ressembler « le tchat est désactivé ».
+-- Ce que le grade décide n'est donc plus l'ouverture mais l'ÉCRITURE, et c'est ce
+-- que dit `canSend`. Ce drapeau est un renseignement d'affichage, pas une garde :
+-- il évite au client d'envoyer un message qui sera refusé, et `ltl_hud:Chat:Send`
+-- revérifie de toute façon — entre l'ouverture et l'envoi il y a le temps passé à
+-- écrire, et un grade peut tomber pendant ce temps-là.
 --
 -- La liste de commandes voyage AVEC l'autorisation plutôt que sur son propre
 -- évènement : elle n'est utile qu'à qui vient d'obtenir la boîte, et personne
--- d'autre n'a à savoir quelles commandes existent.
+-- d'autre n'a à savoir quelles commandes existent. Elle est filtrée par ACE, donc
+-- un joueur ordinaire n'y voit que les siennes.
 RegisterNetEvent("ltl_hud:Chat:Open", function()
     local src = source
     if not allowed(src, "open") then return end
 
-    if not Config.Chat.StaffOnly then
-        TriggerClientEvent("ltl_hud:Chat:Opened", src, commandsFor(src))
-        return
-    end
+    local canSend = not Config.Chat.StaffOnly or Chat.StaffIdentity(src) ~= nil
 
-    if Chat.StaffIdentity(src) then
-        TriggerClientEvent("ltl_hud:Chat:Opened", src, commandsFor(src))
-    end
+    TriggerClientEvent("ltl_hud:Chat:Opened", src, commandsFor(src), canSend)
 end)
 
 RegisterNetEvent("ltl_hud:Chat:Send", function(text)

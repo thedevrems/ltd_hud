@@ -29,16 +29,21 @@ Config.Chat.UseCursorOnInput = false
 -- Canal descendant
 -- =============================================
 
--- Qui peut OUVRIR la saisie. À vrai, seul un staff — quiconque détient un grade
--- de poids strictement supérieur à 0 dans ltl_permissions.
+-- Qui peut ÉCRIRE dans le canal. À vrai, seul un staff — quiconque détient un
+-- grade de poids strictement supérieur à 0 dans ltl_permissions.
+--
+-- LA SAISIE, ELLE, S'OUVRE POUR TOUT LE MONDE dans les deux cas : c'est aussi par
+-- là qu'on lance une commande, et les commandes ne sont pas une affaire de staff.
+-- Les suggestions affichées sous la boîte sont filtrées par ACE, donc chacun n'y
+-- voit que les siennes.
 --
 -- Ce n'est pas réglable par grade ici, et c'est volontaire : la réponse
 -- appartient au serveur, et elle se règle dans l'éditeur de grades du menu
 -- admin. Un fichier partagé que le client lit ne peut pas garder une décision.
 --
--- Le refus est SILENCIEUX : un joueur sans grade qui appuie sur la touche ne voit
--- rien se passer, ce qui est à quoi ressemble un tchat désactivé vu de
--- l'intérieur. À faux, tout le monde retrouve la saisie.
+-- Le refus est SILENCIEUX : un joueur sans grade qui tape autre chose qu'une
+-- commande voit sa ligne disparaître sans rien envoyer. À faux, tout le monde
+-- écrit dans le canal, sans grade ni pastille.
 Config.Chat.StaffOnly = true
 
 -- Durée d'affichage du tchat après l'arrivée d'un message, en millisecondes.

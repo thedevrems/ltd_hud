@@ -38,10 +38,19 @@ RegisterNUICallback('chatResult', function(data, cb)
     if Config.Chat.UseCommandsWithoutSyntax then
         ExecuteCommand(text)
     elseif Config.Chat.StaffOnly then
-        -- Le canal descendant. Le serveur revérifie le grade : l'autorisation qui
-        -- a ouvert la boîte ne vaut pas autorisation d'envoyer, parce qu'entre les
-        -- deux il y a le temps passé à écrire.
-        TriggerServerEvent('ltl_hud:Chat:Send', text)
+        -- Le canal descendant, réservé au staff. La boîte, elle, s'ouvre pour tout
+        -- le monde : un joueur ordinaire y tape ses commandes, et son texte simple
+        -- s'arrête ICI plutôt que de partir se faire refuser — le refus serait le
+        -- même, mais il coûterait un aller-retour et une ligne « refusé » au
+        -- journal pour un joueur qui n'a rien tenté.
+        --
+        -- Ce n'est pas une garde pour autant : le serveur revérifie le grade à
+        -- l'arrivée, parce qu'entre l'ouverture et l'envoi il y a le temps passé à
+        -- écrire, et qu'un client peut de toute façon déclencher l'évènement sans
+        -- passer par cette ligne.
+        if Threads.Chat.CanSend then
+            TriggerServerEvent('ltl_hud:Chat:Send', text)
+        end
     else
         LocalOutOfCharacter(text)
     end
