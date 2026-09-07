@@ -2,6 +2,11 @@ Workers = {}
 Workers.PauseMenu = {}
 
 Workers.PauseMenu.PreventOpen = function()
+    -- Filet générique placé avant la liste d'exports ci-dessous : celle-ci ne
+    -- couvre que les ressources connues, alors qu'un focus NUI trahit n'importe
+    -- quelle interface déjà ouverte. On refuse alors en silence, sans notif.
+    if IsNuiFocused() then return true end
+
     local isOxInventoryOpen = LocalPlayer.state.invOpen
     local isSettingsOpen = LocalPlayer.state['UI_InSettings']
     local isAiming = IsAimCamActive() == 1
